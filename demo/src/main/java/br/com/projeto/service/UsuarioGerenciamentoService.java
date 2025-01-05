@@ -1,72 +1,78 @@
 package br.com.projeto.service;
 
-import br.com.projeto.models.Pessoa;
-import br.com.projeto.models.Teste;
 import br.com.projeto.models.email.EmailDTO;
 import br.com.projeto.models.usuario.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import br.com.projeto.repositorio.UsuarioRepository;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Date;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UsuarioGerenciamentoService {
 
     @Autowired
-    private IUsuarioRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
     private EmailService emailService;
 
-    public String solicitarCodigo(String email){
-        Usuario usuario = usuarioRepository.buscarPorLogin(email);
-        usuario.setCodigoRecuperacaoSenha(codigoRecuperacao(usuario.getId()));
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    public String solicitarCodigo(String email) {
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(email);
+        if (usuarioOptional.isEmpty()) {
+            return "Usuário não encontrado!";
+        }
+
+        Usuario usuario = usuarioOptional.get();
+        String codigoRecuperacao = gerarCodigoRecuperacao();
+        usuario.setCodigoRecuperacaoSenha(codigoRecuperacao);
         usuario.setDataEnvioCodigo(new Date());
+
         usuarioRepository.saveAndFlush(usuario);
-        EmailDTO emailDTO = new EmailDTO(usuario.getLogin(),"Código de Recuperação de Senha"," Seu código para recupera de Senha "+usuario.getCodigoRecuperacaoSenha());
+
+        EmailDTO emailDTO = new EmailDTO(
+                usuario.getEmail(),
+                "Código de Recuperação de Senha",
+                "Seu código para recuperação de senha: " + codigoRecuperacao
+        );
         emailService.enviarEmail(emailDTO);
 
         return "Código enviado!";
     }
 
-    private String codigoRecuperacao(Long id){
-        DateFormat format = new SimpleDateFormat("ddMMyyyyHHmmssmm");
-        return format.format(new Date())+id;
+    private String gerarCodigoRecuperacao() {
+        return UUID.randomUUID().toString().replace("-", "");
     }
 
-    public AlterarSenhaResponse alterarSenha(ResetDTO usuario){
-        // Busca o email e o código de altentificação de senha do usuário
-        Usuario usuarioBanco = usuarioRepository.findByLoginAndCodigoRecuperacaoSenha(usuario.email(),usuario.codigo());
+    public AlterarSenhaResponse alterarSenha(ResetDTO usuario) {
+        Optional<Usuario> usuarioBanco = usuarioRepository.findByEmailAndCodigoRecuperacaoSenha(
+                usuario.email(), usuario.codigo());
 
-        if (usuarioBanco!=null){
-            //Retorna a diferença das datas em milisegundos
-            Date diferencaData = new Date(new Date().getTime() - usuarioBanco.getDataEnvioCodigo().getTime());
-
-            // Verifica se a diferença entre as datas é menor que 15 min
-            if (diferencaData.getTime()/1000 < 900){
-                //Verificar se a senha foi criptografada
-                String novaSenhaCriptografada = new BCryptPasswordEncoder().encode(usuario.senha());
-                usuarioBanco.setSenha(novaSenhaCriptografada);
-                usuarioBanco.setCodigoRecuperacaoSenha(null);
-                usuarioRepository.saveAndFlush(usuarioBanco);
-//                return "Senha Alterada com Sucesso!";
-                return new AlterarSenhaResponse(true,"Senha Alterada com Sucesso");
-            }else {
-//                return "Tempo expirado, solicite um novo código!";
-                return new AlterarSenhaResponse(false,"Tempo expirado, solicite um novo código!");
-            }
-
-        }else {
-//            return "Email ou Código não encontrados!";
-            return new AlterarSenhaResponse(false,"Código não encontrados!");
+        if (usuarioBanco.isEmpty()) {
+            return new AlterarSenhaResponse(false, "Email ou código não encontrados!");
         }
 
+        Usuario usuarioEncontrado = usuarioBanco.get();
+        Instant agora = Instant.now();
+        Instant envioCodigo = usuarioEncontrado.getDataEnvioCodigo().toInstant();
+        Duration diferenca = Duration.between(envioCodigo, agora);
+
+        if (diferenca.toMinutes() > 15) {
+            return new AlterarSenhaResponse(false, "Tempo expirado, solicite um novo código!");
+        }
+
+        String novaSenhaCriptografada = passwordEncoder.encode(usuario.senha());
+        usuarioEncontrado.setSenha(novaSenhaCriptografada);
+        usuarioEncontrado.setCodigoRecuperacaoSenha(null);
+        usuarioRepository.saveAndFlush(usuarioEncontrado);
+
+        return new AlterarSenhaResponse(true, "Senha alterada com sucesso!");
     }
 }
-
 

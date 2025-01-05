@@ -1,5 +1,0 @@
-CREATE TABLE usuarios{
-    id BIGINT PRIMARY KEY UNIQUE NOT NULL auto_increment,
-    login VARCHAR(255) NOT NULL UNIQUE,
-    senha VARCHAR(255) NOT NULL
-};

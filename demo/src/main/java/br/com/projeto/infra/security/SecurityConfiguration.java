@@ -31,6 +31,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST,"/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST,"/auth/recover").permitAll()
                         .requestMatchers(HttpMethod.POST,"/auth/reset").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/auth").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

@@ -8,5 +8,4 @@ import lombok.Getter;
 public class AlterarSenhaResponse {
     private boolean sucesso;
     private String mensagem;
-
 }

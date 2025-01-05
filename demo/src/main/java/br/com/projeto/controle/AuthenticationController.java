@@ -5,6 +5,7 @@ import br.com.projeto.infra.security.TokenService;
 import br.com.projeto.models.email.EmailDTO;
 import br.com.projeto.models.usuario.*;
 import br.com.projeto.service.EmailService;
+import br.com.projeto.repositorio.UsuarioRepository;
 import br.com.projeto.service.UsuarioGerenciamentoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import java.util.Date;
 
 @RestController
 @RequestMapping("auth")
@@ -23,7 +25,7 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private IUsuarioRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
     TokenService tokenService;
@@ -46,28 +48,48 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
-        if (this.usuarioRepository.findByLogin(data.login()) != null){
-            return ResponseEntity.badRequest().body("Usuário já existe!");
+    public ResponseEntity register(@RequestBody @Valid RegisterDTO data) {
+        // Verifica se o email já existe no banco de dados
+        if (this.usuarioRepository.findByEmail(data.email()).isPresent()) {
+            return ResponseEntity.badRequest().body("Email já registrado!");
         }
 
-        if(!data.senha().equals(data.confirmacaoSenha())){
-            return  ResponseEntity.badRequest().body("As senhas não conicidem!");
+        // Verifica se as senhas coincidem
+        if (!data.senha().equals(data.confirmacaoSenha())) {
+            return ResponseEntity.badRequest().body("As senhas não coincidem!");
         }
 
+        // Criptografa a senha antes de salvar no banco
         String encryptedSenha = new BCryptPasswordEncoder().encode(data.senha());
-        Usuario newUsuario = new Usuario(data.login(),encryptedSenha, data.nome())  ;
 
+        // Cria um novo usuário com os dados fornecidos
+        Usuario newUsuario = new Usuario(
+                null,
+                data.nome(),
+                data.email(),
+                encryptedSenha,
+                null, // imagePath (opcional)
+                0, // reviews
+                0, // followers
+                0  // followings
+        );
+
+        // Salva o novo usuário no banco de dados
         this.usuarioRepository.save(newUsuario);
-        var emailDTO = new EmailDTO(data.login(),"Cadastro na Critix","Registro no site Critix realizado com sucesso!");
+
+        // Envia um email de confirmação de registro
+        var emailDTO = new EmailDTO(data.email(), "Cadastro na Critix", "Registro no site Critix realizado com sucesso!");
         emailService.enviarEmail(emailDTO);
+
+        // Retorna uma resposta de sucesso
         return ResponseEntity.ok().body("Usuário registrado com sucesso!");
     }
 
-    //Envia código de recuperação de senha para o Usuário pelo email
+
+//    Envia código de recuperação de senha para o Usuário pelo email
     @PostMapping("/recover")
     public ResponseEntity CodigoRecuperacaoSenha(@RequestParam("login") String email){
-        if (this.usuarioRepository.buscarPorLogin(email) == null){
+        if (this.usuarioRepository.findByEmail(email) == null){
             return ResponseEntity.badRequest().body("Usuário não cadastrado!");
         }
 
@@ -79,7 +101,7 @@ public class AuthenticationController {
     //Redefinição de senha com o código enviado por email do /recover para o usuário
     @PostMapping("/reset")
     public ResponseEntity reset(@RequestBody ResetDTO resetDTO){
-        if (this.usuarioRepository.buscarPorLogin(resetDTO.email()) == null){
+        if (this.usuarioRepository.findByEmail(resetDTO.email()) == null){
             return ResponseEntity.badRequest().body("Usuário não cadastrado!");
         }
         if(!resetDTO.senha().equals(resetDTO.confirmacaoSenha())){
@@ -89,14 +111,17 @@ public class AuthenticationController {
             return ResponseEntity.badRequest().body("A senha deve ter pelo menos 8 caracteres");
         }
 
-//        return ResponseEntity.ok().body(usuarioGerenciamentoService.alterarSenha(resetDTO));
-        AlterarSenhaResponse reponse = usuarioGerenciamentoService.alterarSenha(resetDTO);
-        return ResponseEntity.status(reponse.isSucesso() ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(reponse);
+        //return ResponseEntity.ok().body(usuarioGerenciamentoService.alterarSenha(resetDTO));
+        AlterarSenhaResponse response = usuarioGerenciamentoService.alterarSenha(resetDTO);
+        if (response.isSucesso()) {
+            return ResponseEntity.ok().body(response.getMensagem());
+        } else {
+            return ResponseEntity.badRequest().body(response.getMensagem());
+        }
     }
 
     @GetMapping("")
-    public String hello(){
-        return "Olá mundo";
+    public ResponseEntity<String> hello() {
+        return ResponseEntity.ok("Olá, está é a rota de autenticação!");
     }
-
 }
