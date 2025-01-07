@@ -35,10 +35,12 @@ public class UsuarioGerenciamentoService {
         usuario.setDataEnvioCodigo(new Date());
 
         usuarioRepository.saveAndFlush(usuario);
+        StringBuilder corpoEmail = new StringBuilder();
+
 
         EmailDTO emailDTO = new EmailDTO(
                 usuario.getEmail(),
-                "Código de Recuperação de Senha",
+                "Solicitação de Recuperação de Senha - Critix   ",
                 "Seu código para recuperação de senha: " + codigoRecuperacao
         );
         emailService.enviarEmail(emailDTO);
@@ -47,7 +49,7 @@ public class UsuarioGerenciamentoService {
     }
 
     private String gerarCodigoRecuperacao() {
-        return UUID.randomUUID().toString().replace("-", "");
+        return String.format("%06d", (int) (Math.random() * 1000000));
     }
 
     public AlterarSenhaResponse alterarSenha(ResetDTO usuario) {

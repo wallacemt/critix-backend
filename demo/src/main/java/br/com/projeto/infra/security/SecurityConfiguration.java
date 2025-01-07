@@ -24,12 +24,14 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
+                .cors().and()
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST,"/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST,"/auth/recover").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/auth/recover/code").permitAll()
                         .requestMatchers(HttpMethod.POST,"/auth/reset").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth").permitAll()
                         .anyRequest().authenticated())
