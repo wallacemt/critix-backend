@@ -39,7 +39,7 @@ public class AuthenticationController {
     private UsuarioGerenciamentoService usuarioGerenciamentoService;
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody @Valid AutheticationDTO data) {
+    public ResponseEntity<Map   <String, String>> login(@RequestBody @Valid AutheticationDTO data) {
         var usernameSenha = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
         // Autentica se o nosso usuário existe no banco
         var auth = this.authenticationManager.authenticate(usernameSenha);

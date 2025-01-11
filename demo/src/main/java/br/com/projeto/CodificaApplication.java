@@ -6,6 +6,8 @@ import io.github.cdimascio.dotenv.Dotenv;
 @SpringBootApplication
 public class CodificaApplication {
 
+
+
 	public static void main(String[] args) {
 		// Carrega as variáveis do arquivo .env
 		Dotenv dotenv = Dotenv.load();
@@ -18,6 +20,10 @@ public class CodificaApplication {
 		System.setProperty("api.security.token.secret", dotenv.get("API_SECURITY_TOKEN_SECRET"));
 		System.setProperty("spring.mail.username", dotenv.get("SPRING_MAIL_USERNAME"));
 		System.setProperty("spring.mail.password", dotenv.get("SPRING_MAIL_PASSWORD"));
+		System.setProperty("cloudinary.api.name", dotenv.get("CLOUDINARY.API.NAME"));
+		System.setProperty("cloudinary.api.key", dotenv.get("CLOUDINARY.API.KEY"));
+		System.setProperty("cloudinary.api.secret", dotenv.get("CLOUDINARY.API.SECRET"));
+
 		SpringApplication.run(CodificaApplication.class, args);
 	}
 

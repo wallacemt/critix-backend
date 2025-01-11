@@ -1,14 +1,22 @@
-# Usar uma imagem do OpenJDK com JAR embutido
-FROM openjdk:17-jdk-slim
-
-# Define o diretório de trabalho
+# Usar uma imagem oficial do Maven para construir o projeto
+FROM maven:3.8.7-openjdk-17 AS builder
 WORKDIR /app
 
-# Copia o JAR gerado para a imagem
-COPY target/critix.jar app.jar
+# Copiar o arquivo pom.xml e baixar dependências
+COPY pom.xml .
+RUN mvn dependency:go-offline
 
-# Expor a porta que a aplicação usará
-EXPOSE 8081
+# Copiar o código fonte e construir o projeto
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-# Comando para executar a aplicação
+# Usar uma imagem mais leve para rodar a aplicação
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+
+# Copiar o .jar gerado no estágio anterior
+COPY --from=builder /app/target/critix.jar app.jar
+
+# Expor a porta e executar o .jar
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
