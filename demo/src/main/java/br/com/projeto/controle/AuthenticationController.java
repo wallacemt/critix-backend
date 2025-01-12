@@ -177,4 +177,10 @@ public class AuthenticationController {
     public ResponseEntity<String> hello() {
         return ResponseEntity.ok("{\"message\": \"essa e a rota de autenticação\"}");
     }
+
+    // Teste de Autenticação Para ver o funcionamento do Token JWT
+    @GetMapping("teste")
+    public ResponseEntity testeAutenticacao(){
+        return ResponseEntity.ok("Usuário Autenticado!");
+    }
 }
