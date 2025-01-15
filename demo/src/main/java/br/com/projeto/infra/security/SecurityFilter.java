@@ -19,10 +19,10 @@ import java.util.Optional;
 public class SecurityFilter extends OncePerRequestFilter {
 
     @Autowired
-    TokenService tokenService;
+    private TokenService tokenService;
 
     @Autowired
-    private br.com.projeto.repositorio.UsuarioRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -37,12 +37,14 @@ public class SecurityFilter extends OncePerRequestFilter {
         filterChain.doFilter(request,response);
     }
 
+    //verificar se a requisição está autorizada.
     private String recoverToken(HttpServletRequest request) {
-        var authHeader = request.getHeader("Authorization");
-        if (authHeader == null){
-            return null;
+        var authHeader = request.getHeader("Authorization"); //Obter cabeçalho de autorização
+        if (authHeader != null){
+            return authHeader.replace("Bearer","");
         }
 
-        return authHeader.replace("Bearer","");
+        return null;
+
     }
 }

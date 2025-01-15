@@ -7,6 +7,7 @@ import br.com.projeto.models.usuario.*;
 import br.com.projeto.service.EmailService;
 import br.com.projeto.repositorio.UsuarioRepository;
 import br.com.projeto.service.UsuarioGerenciamentoService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("auth")
+@SecurityRequirement(name = "bearer-key") //indica que todos os endpoints dentro desse controller exigem autenticação através de um token JWT (JSON Web Token) para serem acessados.
 public class AuthenticationController {
 
     @Autowired
@@ -178,9 +180,5 @@ public class AuthenticationController {
         return ResponseEntity.ok("{\"message\": \"essa e a rota de autenticação\"}");
     }
 
-    // Teste de Autenticação Para ver o funcionamento do Token JWT
-    @GetMapping("teste")
-    public ResponseEntity testeAutenticacao(){
-        return ResponseEntity.ok("Usuário Autenticado!");
-    }
+
 }
