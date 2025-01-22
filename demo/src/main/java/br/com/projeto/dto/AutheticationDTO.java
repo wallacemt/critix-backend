@@ -1,4 +1,4 @@
-package br.com.projeto.models.usuario;
+package br.com.projeto.dto;
 
 public record AutheticationDTO(String login, String senha) {
 }

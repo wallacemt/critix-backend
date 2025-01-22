@@ -1,7 +1,7 @@
 // Source code is decompiled from a .class file using FernFlower decompiler.
 package br.com.projeto.service;
 
-import br.com.projeto.models.email.EmailDTO;
+import br.com.projeto.dto.EmailDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;

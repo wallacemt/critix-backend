@@ -35,7 +35,7 @@ public class CloudinaryService {
 
        Map<String, Object> requestBody = Map.of(
                "expression", "folder=" + folderName,
-               "max_results", 10
+               "max_results", 6
         );
 
        return webClient

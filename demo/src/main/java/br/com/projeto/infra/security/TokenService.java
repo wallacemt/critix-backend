@@ -18,11 +18,12 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
+
     public String generateToken(Usuario usuario){
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
-                    .withIssuer("API citry-login")
+                    .withIssuer("API critix-login")
                     .withSubject(usuario.getUsername())
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
@@ -34,11 +35,13 @@ public class TokenService {
     public String validationToken(String tokenJWT){
         try{
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            return JWT.require(algorithm)
-                    .withIssuer("API citry-login")
+
+            String subject = JWT.require(algorithm)
+                    .withIssuer("API critix-login")
                     .build()
                     .verify(tokenJWT)
                     .getSubject();
+            return subject;
         }catch (JWTVerificationException exception){
             throw new RuntimeException("Token JWT inválido ou expirado!");
         }

@@ -1,8 +1,11 @@
 package br.com.projeto.service;
 
-import br.com.projeto.models.email.EmailDTO;
+import br.com.projeto.dto.ResetDTO;
+import br.com.projeto.dto.EmailDTO;
+import br.com.projeto.dto.UsuarioDTO;
 import br.com.projeto.models.usuario.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import br.com.projeto.repositorio.UsuarioRepository;
@@ -10,7 +13,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class UsuarioGerenciamentoService {
@@ -20,6 +22,15 @@ public class UsuarioGerenciamentoService {
 
     @Autowired
     private EmailService emailService;
+
+    public UsuarioDTO getUser(String subject) {
+        Optional<Usuario> usuario = usuarioRepository.findByEmail(subject);
+        Usuario usuarioEntity = usuario.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado para o e-mail: " + subject));
+
+        return new UsuarioDTO(usuarioEntity);
+    }
+
+
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -47,6 +58,8 @@ public class UsuarioGerenciamentoService {
 
         return "Código enviado!";
     }
+
+
 
     private String gerarCodigoRecuperacao() {
         return String.format("%06d", (int) (Math.random() * 1000000));

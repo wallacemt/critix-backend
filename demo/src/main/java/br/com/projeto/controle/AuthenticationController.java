@@ -1,14 +1,17 @@
 package br.com.projeto.controle;
 
-import br.com.projeto.infra.security.DadosTokenJWT;
+import br.com.projeto.dto.AutheticationDTO;
+import br.com.projeto.dto.RegisterDTO;
+import br.com.projeto.dto.ResetDTO;
 import br.com.projeto.infra.security.TokenService;
-import br.com.projeto.models.email.EmailDTO;
+import br.com.projeto.dto.EmailDTO;
 import br.com.projeto.models.usuario.*;
 import br.com.projeto.service.EmailService;
 import br.com.projeto.repositorio.UsuarioRepository;
 import br.com.projeto.service.UsuarioGerenciamentoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,20 +42,23 @@ public class AuthenticationController {
     private UsuarioGerenciamentoService usuarioGerenciamentoService;
 
     @PostMapping("/login")
-    public ResponseEntity<Map   <String, String>> login(@RequestBody @Valid AutheticationDTO data) {
-        var usernameSenha = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
-        // Autentica se o nosso usuário existe no banco
-        var auth = this.authenticationManager.authenticate(usernameSenha);
+    public ResponseEntity<Map<String, String>> login(@RequestBody @Valid AutheticationDTO data) {
+        try {
+            var usernameSenha = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
+            var auth = this.authenticationManager.authenticate(usernameSenha);
 
-        // Gera o token JWT
-        var token = tokenService.generateToken((Usuario) auth.getPrincipal());
+            var token = tokenService.generateToken((Usuario) auth.getPrincipal());
 
-        // Retorna a resposta com a mensagem e o token
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Login bem-sucedido.");
-        response.put("token", token);  // Coloca o token diretamente como String
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Login bem-sucedido.");
+            response.put("token", token);
 
-        return ResponseEntity.ok(response);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Usuário ou senha inválidos.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+        }
     }
 
 
@@ -82,6 +88,7 @@ public class AuthenticationController {
                 data.email(),
                 encryptedSenha,
                 null, // imagePath (opcional)
+                null,
                 0, // reviews
                 0, // followers
                 0  // followings

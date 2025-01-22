@@ -1,4 +1,4 @@
-package br.com.projeto.models.usuario;
+package br.com.projeto.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

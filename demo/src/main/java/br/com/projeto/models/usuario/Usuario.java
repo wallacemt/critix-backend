@@ -1,6 +1,8 @@
 package br.com.projeto.models.usuario;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,13 +29,19 @@ public class Usuario implements UserDetails {
     private String nome;
 
     @Column(nullable = false, unique = true, length = 255)
+    @Email(message = "O email deve ser válido")
     private String email;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false, length = 80)
+    @Size(min = 8, message = "A senha deve ter pelo menos 8 caracteres.")
     private String senha;
 
     @Column(name = "image_path")
     private String imagePath; // URL da foto de perfil, pode ser nulo
+
+    @Column(name = "banner_path")
+    private String bannerPath; // URL da capa de perfil, pode ser nulo
+
 
     @Column(name = "data_cadastro", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -54,12 +62,13 @@ public class Usuario implements UserDetails {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataEnvioCodigo;
 
-    public Usuario(Long id, String nome, String email, String senha, String imagePath, int reviews, int followers, int followings) {
+    public Usuario(Long id, String nome, String email, String senha, String imagePath, String bannerPath, int reviews, int followers, int followings) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.imagePath = imagePath;
+        this.bannerPath = bannerPath;
         this.dataCadastro = new Date();
         this.reviews = reviews;
         this.followers = followers;
@@ -88,30 +97,6 @@ public class Usuario implements UserDetails {
     @Override
     public String getUsername() {
         return email; // Alterado para usar email como username
-    }
-
-    public Date getDataEnvioCodigo() {
-        return dataEnvioCodigo;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public void setDataEnvioCodigo(Date dataEnvioCodigo) {
-        this.dataEnvioCodigo = dataEnvioCodigo;
-    }
-
-    public void setCodigoRecuperacaoSenha(String codigoRecuperacaoSenha) {
-        this.codigoRecuperacaoSenha = codigoRecuperacaoSenha;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getNome() {
-        return nome;
     }
 
     @Override
