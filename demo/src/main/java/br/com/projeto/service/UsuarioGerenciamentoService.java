@@ -30,6 +30,22 @@ public class UsuarioGerenciamentoService {
         return new UsuarioDTO(usuarioEntity);
     }
 
+    public String setProfilePath(String subject, String urlPath){
+        Optional<Usuario> usuario = usuarioRepository.findByEmail(subject);
+        Usuario entityUser = usuario.orElseThrow(() -> new UsernameNotFoundException("Usuario não encontrado para o subject: " + subject));
+        entityUser.setImagePath(urlPath);
+        usuarioRepository.saveAndFlush(entityUser);
+        return "Imagem Atualizada";
+    }
+
+    public String setBannerProfilePath(String subject, String bannerPath){
+        Optional<Usuario> usuario = usuarioRepository.findByEmail(subject);
+        Usuario entityUser = usuario.orElseThrow(() -> new UsernameNotFoundException("Usuario não encontrado para o subject: " + subject));
+        entityUser.setBannerPath(bannerPath);
+        usuarioRepository.saveAndFlush(entityUser);
+        return "Banner Atualizado";
+    }
+
 
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

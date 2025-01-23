@@ -3,10 +3,12 @@ package br.com.projeto.dto;
 import br.com.projeto.models.usuario.Usuario;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
 @NoArgsConstructor
 @Getter
+@Setter
 public class UsuarioDTO {
     private Long id;
     private String name;
