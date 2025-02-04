@@ -32,7 +32,7 @@ public class Usuario implements UserDetails {
     @Email(message = "O email deve ser válido")
     private String email;
 
-    @Column(nullable = false, length = 80)
+    @Column(nullable = false, length = 255)
     @Size(min = 8, message = "A senha deve ter pelo menos 8 caracteres.")
     private String senha;
 

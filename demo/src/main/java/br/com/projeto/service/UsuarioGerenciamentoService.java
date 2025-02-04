@@ -7,6 +7,7 @@ import br.com.projeto.models.usuario.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import br.com.projeto.repositorio.UsuarioRepository;
 import java.time.Duration;
@@ -20,6 +21,8 @@ public class UsuarioGerenciamentoService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Autowired
     private EmailService emailService;
 
@@ -47,8 +50,6 @@ public class UsuarioGerenciamentoService {
     }
 
 
-
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public String solicitarCodigo(String email) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(email);

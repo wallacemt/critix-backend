@@ -23,6 +23,7 @@ public class CodificaApplication {
 		System.setProperty("cloudinary.api.name", dotenv.get("CLOUDINARY.API.NAME"));
 		System.setProperty("cloudinary.api.key", dotenv.get("CLOUDINARY.API.KEY"));
 		System.setProperty("cloudinary.api.secret", dotenv.get("CLOUDINARY.API.SECRET"));
+		System.setProperty("google.client.id", dotenv.get("GOOGLE_CLIENT_ID"));
 
 		SpringApplication.run(CodificaApplication.class, args);
 	}
