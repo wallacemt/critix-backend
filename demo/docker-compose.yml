@@ -1,0 +1,21 @@
+services:
+  backend:
+    build: .
+    container_name: critix-backend
+    ports:
+      - "8081:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/critix
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8
+    container_name: critix-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: critix
+    ports:
+      - "3307:3306"

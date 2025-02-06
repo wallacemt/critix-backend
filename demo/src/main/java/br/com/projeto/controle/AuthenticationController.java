@@ -3,10 +3,12 @@ package br.com.projeto.controle;
 import br.com.projeto.dto.AutheticationDTO;
 import br.com.projeto.dto.RegisterDTO;
 import br.com.projeto.dto.ResetDTO;
+import br.com.projeto.infra.security.TokenService;
 import br.com.projeto.service.AuthenticationService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import br.com.projeto.service.RefreshTokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,13 @@ public class AuthenticationController {
 
     @Autowired
     private AuthenticationService authenticationService;
+
+    @Autowired
+    private RefreshTokenService refreshTokenService;
+
+    @Autowired
+    private TokenService tokenService;
+
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody @Valid AutheticationDTO data) {
@@ -48,6 +57,20 @@ public class AuthenticationController {
     @PostMapping("/reset")
     public ResponseEntity<Map<String, String>> reset(@RequestBody ResetDTO resetDTO) {
         return ResponseEntity.ok(authenticationService.resetPassword(resetDTO));
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> request) {
+        String refreshToken = request.get("refreshToken");
+
+        if(refreshToken == null || refreshToken.isEmpty()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", "RefreshToken é obrigatório"));
+        }
+
+        String newAcessToken = refreshTokenService.createAcessTokenFromRefreshToken(refreshToken);
+
+        return  ResponseEntity.ok(Map.of("acessToken", newAcessToken));
     }
 
     @GetMapping("")

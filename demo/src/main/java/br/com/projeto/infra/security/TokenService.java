@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 @Service
 public class TokenService {
@@ -19,17 +17,23 @@ public class TokenService {
     private String secret;
 
 
-    public String generateToken(Usuario usuario){
+    public String generateToken(Usuario usuario, long expirationTime){
+        Instant expirationInstant = Instant.now().plusMillis(expirationTime);
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withIssuer("API critix-login")
                     .withSubject(usuario.getUsername())
-                    .withExpiresAt(genExpirationDate())
+                    .withExpiresAt(expirationInstant)
                     .sign(algorithm);
         }catch (JWTCreationException exception){
             throw new RuntimeException("erro ao gerar token jwt",exception);
         }
+    }
+
+    public String generateToken(Usuario usuario) {
+        long defaultExpirationTime = 3 * 60 * 60 * 1000;
+        return generateToken(usuario, defaultExpirationTime);
     }
 
     public String validationToken(String tokenJWT){
@@ -47,7 +51,9 @@ public class TokenService {
         }
     }
 
-    private Instant genExpirationDate(){
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+    public String generateRefreshToken(Usuario usuario){
+        return generateToken(usuario, 7 * 24 * 60 * 60 * 1000);
     }
+
+
 }

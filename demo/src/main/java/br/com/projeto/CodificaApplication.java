@@ -9,7 +9,6 @@ public class CodificaApplication {
 
 
 	public static void main(String[] args) {
-		// Carrega as variáveis do arquivo .env
 		Dotenv dotenv = Dotenv.load();
 
 		// Define as propriedades do sistema com as variáveis carregadas

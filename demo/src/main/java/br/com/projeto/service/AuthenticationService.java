@@ -8,15 +8,12 @@ import br.com.projeto.dto.EmailDTO;
 import br.com.projeto.models.usuario.AlterarSenhaResponse;
 import br.com.projeto.models.usuario.Usuario;
 import br.com.projeto.repositorio.UsuarioRepository;
-import br.com.projeto.service.EmailService;
-import com.google.api.client.auth.oauth2.TokenResponseException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -65,9 +62,12 @@ public class AuthenticationService {
             if(existingUser.isPresent()){
                 Usuario usuario = existingUser.get();
                 String token = tokenService.generateToken(usuario);
+                String refreshToken = tokenService.generateRefreshToken(usuario);
+
                 Map<String, String>  responseMap = new HashMap<>();
                 responseMap.put("message", "Bem-Vindo " + usuario.getNome());
                 responseMap.put("token", token);
+                responseMap.put("refreshToken", refreshToken);
                 return responseMap;
             }
 
@@ -80,9 +80,11 @@ public class AuthenticationService {
 
             //Gera o token para o novo usuario
             String token = tokenService.generateToken(newUser);
+            String refreshToken = tokenService.generateRefreshToken(newUser);
             Map<String, String>  responseMap = new HashMap<>();
             responseMap.put("message", "Usuário registrado com sucesso!");
             responseMap.put("token",token);
+            responseMap.put("refreshToken", refreshToken);
             return  responseMap;
         } catch (Exception e) {
             Map<String, String> errorResponse = new HashMap<>();
@@ -96,11 +98,14 @@ public class AuthenticationService {
             var usernameSenha = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
             var auth = this.authenticationManager.authenticate(usernameSenha);
 
-            var token = tokenService.generateToken((Usuario) auth.getPrincipal());
+            Usuario usuario = (Usuario) auth.getPrincipal();
+            String acessToken = tokenService.generateToken(usuario);
+            String refreshToken = tokenService.generateRefreshToken(usuario);
 
             Map<String, String> response = new HashMap<>();
             response.put("message", "Bem-vindo, " + ((Usuario) auth.getPrincipal()).getNome());
-            response.put("token", token);
+            response.put("token", acessToken);
+            response.put("refreshToken", refreshToken);
 
             return response;
         } catch (Exception e) {
