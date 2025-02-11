@@ -7,6 +7,7 @@ import br.com.projeto.dto.UsuarioDTO;
 import br.com.projeto.models.usuario.Usuario;
 import br.com.projeto.service.UsuarioGerenciamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,16 @@ public class UserController {
 
     @Autowired
     private UsuarioGerenciamentoService usuarioGerenciamentoService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UsuarioDTO> getUsuarioById(@PathVariable Long id,@AuthenticationPrincipal Usuario usuario){
+        try{
+            UsuarioDTO usuarioDTO = usuarioGerenciamentoService.getUserById(id,usuario);
+            return ResponseEntity.ok(usuarioDTO);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 
     @GetMapping
     public ResponseEntity<UsuarioDTO> getUser(@AuthenticationPrincipal Usuario usuario){

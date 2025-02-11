@@ -4,6 +4,7 @@ import br.com.projeto.dto.ResetDTO;
 import br.com.projeto.dto.EmailDTO;
 import br.com.projeto.dto.UsuarioDTO;
 import br.com.projeto.models.usuario.*;
+import br.com.projeto.service.exceptions.UsuarioNaoEncontradoPeloId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +24,7 @@ public class UsuarioGerenciamentoService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Autowired
     private EmailService emailService;
 
@@ -105,6 +107,19 @@ public class UsuarioGerenciamentoService {
         usuarioRepository.saveAndFlush(usuarioEncontrado);
 
         return new AlterarSenhaResponse(true, "Senha alterada com sucesso!");
+    }
+
+    // Retorna as informações do usuário pelo ID
+    public UsuarioDTO getUserById(Long id, Usuario usuario){
+        Optional<Usuario> usuarioEntity = usuarioRepository.findById(id);
+
+        if (usuarioEntity.isEmpty()){
+            throw new UsuarioNaoEncontradoPeloId("Usuário não encontrado para o ID: "+id);
+        }
+
+        Usuario usuarioEncontrado = usuarioEntity.get();
+
+        return new UsuarioDTO(usuarioEncontrado,true);
     }
 }
 
