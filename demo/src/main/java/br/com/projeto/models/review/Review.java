@@ -22,7 +22,7 @@ public class Review {
     private Boolean containsSpoiler;
     private LocalDateTime dataCriacao = LocalDateTime.now();
     private Integer likes = 0;
-    private Integer dislikes = 0;
+    private Integer deslikes = 0;
     private Integer comentarios = 0;
 
 

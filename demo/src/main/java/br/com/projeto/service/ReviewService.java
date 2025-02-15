@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -37,19 +38,59 @@ public class ReviewService {
         reviewRepository.deleteById(id);
     }
 
-    public ReviewDTO editReview(Long id, ReviewDTO reviewDTO) {
+    public ReviewDTO partialUpdateReview(Long id, Map<String, Object> updates) {
         Optional<Review> optionalReview = reviewRepository.findById(id);
         if (optionalReview.isPresent()) {
             Review review = optionalReview.get();
-            review.setNota(reviewDTO.getNota());
-            review.setContent(reviewDTO.getContent());
-            review.setContainsSpoiler(reviewDTO.getContainsSpoiler());
-            reviewRepository.save(review);
-            return convertToDTO(review);
+
+            updates.forEach((campo, valor) -> {
+                switch (campo) {
+                    case "nota":
+                        review.setNota((Double) valor);
+                        break;
+                    case "content":
+                        review.setContent((String) valor);
+                        break;
+                    case "containsSpoiler":
+                        review.setContainsSpoiler((Boolean) valor);
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Campo inválido: " + campo);
+                }
+            });
+
+
+            Review updatedReview = reviewRepository.save(review);
+            return convertToDTO(updatedReview);
         } else {
             throw new UsernameNotFoundException("Review not found");
         }
     }
+    public ReviewDTO addLike(Long id) {
+        Optional<Review> optionalReview = reviewRepository.findById(id);
+        if (optionalReview.isPresent()) {
+            Review review = optionalReview.get();
+            review.setLikes(review.getLikes() + 1);
+            Review updatedReview = reviewRepository.save(review);
+            return convertToDTO(updatedReview);
+        } else {
+            throw new UsernameNotFoundException("Review not found");
+        }
+    }
+
+
+    public ReviewDTO addDeslike(Long id) {
+        Optional<Review> optionalReview = reviewRepository.findById(id);
+        if (optionalReview.isPresent()) {
+            Review review = optionalReview.get();
+            review.setDeslikes(review.getDeslikes() + 1);
+            Review updatedReview = reviewRepository.save(review);
+            return convertToDTO(updatedReview);
+        } else {
+            throw new UsernameNotFoundException("Review not found");
+        }
+    }
+
 
     private ReviewDTO convertToDTO(Review review) {
         return new ReviewDTO(
@@ -62,7 +103,7 @@ public class ReviewService {
                 review.getContainsSpoiler(),
                 review.getDataCriacao(),
                 review.getLikes(),
-                review.getDislikes(),
+                review.getDeslikes(),
                 review.getComentarios()
         );
     }

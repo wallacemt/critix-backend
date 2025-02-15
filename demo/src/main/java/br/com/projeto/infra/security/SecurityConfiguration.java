@@ -38,11 +38,6 @@ public class SecurityConfiguration {
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                         .requestMatchers("/user").authenticated()
                         .requestMatchers("/user/**").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/reviews").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/reviews/user/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/comments").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/comments/review/**").permitAll()
-
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

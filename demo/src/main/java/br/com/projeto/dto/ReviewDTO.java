@@ -17,6 +17,6 @@ public class ReviewDTO {
     private Boolean containsSpoiler;
     private LocalDateTime dataCriacao;
     private Integer likes;
-    private Integer dislikes;
+    private Integer deslikes;
     private Integer comentarios;
 }
