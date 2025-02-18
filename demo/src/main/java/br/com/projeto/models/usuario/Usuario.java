@@ -20,9 +20,8 @@ import java.util.List;
 @EqualsAndHashCode(of = "id")
 @Entity
 public class Usuario implements UserDetails {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 255)

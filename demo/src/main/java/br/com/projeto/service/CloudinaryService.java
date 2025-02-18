@@ -33,12 +33,12 @@ public class CloudinaryService {
         String credentials = apiKey + ":" + apiSecret;
         String encodedCredentials = Base64.getEncoder().encodeToString(credentials.getBytes());
 
-       Map<String, Object> requestBody = Map.of(
-               "expression", "folder=" + folderName,
-               "max_results", 6
+        Map<String, Object> requestBody = Map.of(
+                "expression", "folder=" + folderName,
+                "max_results", 6
         );
 
-       return webClient
+        return webClient
                 .post()
                 .uri(uriBuilder -> uriBuilder.path(url)
                         .queryParam("next_cursor", nextCursor != null ? nextCursor : "") // Passando next_cursor se houver
@@ -53,4 +53,3 @@ public class CloudinaryService {
                 .bodyToMono(Map.class);  // Retorna a resposta completa como Map
     }
 }
-

@@ -28,5 +28,3 @@ public class CloudinaryController {
         return ResponseEntity.ok("Usuário Autenticado!");
     }
 }
-
-

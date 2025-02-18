@@ -4,7 +4,6 @@ import br.com.projeto.models.usuario.Usuario;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.BeanUtils;
 
 @NoArgsConstructor
 @Getter
@@ -14,23 +13,22 @@ public class UsuarioDTO {
     private String name;
     private String email;
     private String imagePath;
-    private String bannePath;
+    private String bannerPath;
     private int reviews;
     private int followers;
     private int followings;
+    private boolean isUser;
 
-    public UsuarioDTO(Usuario entity) {
-        this(entity,false);
-    }
 
-    public UsuarioDTO(Usuario usuario, boolean ocultaEmail) {
-        this.id = usuario.getId();
-        this.name = usuario.getNome();
-        this.email = ocultaEmail ? null : usuario.getEmail();// Oculta email se solicitado
-        this.imagePath = usuario.getImagePath();
-        this.bannePath = usuario.getBannerPath();
-        this.reviews = usuario.getReviews();
-        this.followers = usuario.getFollowers();
-        this.followings = usuario.getFollowings();
+    public UsuarioDTO(Usuario entity, boolean ocultaEmail, boolean isUser) {
+        this.id = entity.getId();
+        this.name = entity.getNome();
+        this.email = ocultaEmail ? null : entity.getEmail();
+        this.imagePath = entity.getImagePath();
+        this.bannerPath = entity.getBannerPath();
+        this.reviews = entity.getReviews();
+        this.followers = entity.getFollowers();
+        this.followings = entity.getFollowings();
+        this.isUser = isUser;
     }
 }

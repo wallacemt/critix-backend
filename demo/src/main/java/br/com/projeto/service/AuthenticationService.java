@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -106,7 +107,6 @@ public class AuthenticationService {
             response.put("message", "Bem-vindo, " + ((Usuario) auth.getPrincipal()).getNome());
             response.put("token", acessToken);
             response.put("refreshToken", refreshToken);
-
             return response;
         } catch (Exception e) {
             Map<String, String> errorResponse = new HashMap<>();

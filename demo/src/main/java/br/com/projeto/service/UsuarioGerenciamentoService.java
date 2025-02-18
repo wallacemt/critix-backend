@@ -4,10 +4,8 @@ import br.com.projeto.dto.ResetDTO;
 import br.com.projeto.dto.EmailDTO;
 import br.com.projeto.dto.UsuarioDTO;
 import br.com.projeto.models.usuario.*;
-import br.com.projeto.service.exceptions.UsuarioNaoEncontradoPeloId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import br.com.projeto.repositorio.UsuarioRepository;
@@ -24,7 +22,6 @@ public class UsuarioGerenciamentoService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     private EmailService emailService;
 
@@ -32,7 +29,7 @@ public class UsuarioGerenciamentoService {
         Optional<Usuario> usuario = usuarioRepository.findByEmail(subject);
         Usuario usuarioEntity = usuario.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado para o e-mail: " + subject));
 
-        return new UsuarioDTO(usuarioEntity);
+        return new UsuarioDTO(usuarioEntity, false,true);
     }
 
     public String setProfilePath(String subject, String urlPath){
@@ -112,14 +109,15 @@ public class UsuarioGerenciamentoService {
     // Retorna as informações do usuário pelo ID
     public UsuarioDTO getUserById(Long id, Usuario usuario){
         Optional<Usuario> usuarioEntity = usuarioRepository.findById(id);
-
         if (usuarioEntity.isEmpty()){
-            throw new UsuarioNaoEncontradoPeloId("Usuário não encontrado para o ID: "+id);
+            throw new UsernameNotFoundException("Usuário não encontrado para o ID: "+id);
         }
-
         Usuario usuarioEncontrado = usuarioEntity.get();
-
-        return new UsuarioDTO(usuarioEncontrado,true);
+        boolean isUser = false;
+        if(usuarioEntity.get().getId() == usuario.getId()){
+           isUser = true;
+        }
+        return new UsuarioDTO(usuarioEncontrado,true, isUser);
     }
 }
 

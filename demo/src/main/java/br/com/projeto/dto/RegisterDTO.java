@@ -7,13 +7,16 @@ import jakarta.validation.constraints.Size;
 public record RegisterDTO(
         @NotBlank @Size(max = 255) String nome,
 
-        @NotBlank @Email(message = "O email deve ser válido")
+        @NotBlank
         @Size(max = 255, message = "O email não pode ultrapassar 255 caracteres")
+        @Email(message = "O email informado é inválido")
         String email,
 
-        @NotBlank @Size(min = 8, message = "A senha deve ter pelo menos 8 caracteres")
+        @NotBlank(message = "A senha é obrigatória.")
+        @Size(min = 8, message = "A senha deve ter pelo menos 8 caracteres")
         String senha,
 
-        @NotBlank String confirmacaoSenha
-) {
-}
+
+        @NotBlank(message = "A confirmação de senha é obrigatória.")
+        String confirmacaoSenha
+) {}

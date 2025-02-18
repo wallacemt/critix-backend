@@ -20,29 +20,29 @@ public class UserController {
     private UsuarioGerenciamentoService usuarioGerenciamentoService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> getUsuarioById(@PathVariable Long id,@AuthenticationPrincipal Usuario usuario){
-        try{
-            UsuarioDTO usuarioDTO = usuarioGerenciamentoService.getUserById(id,usuario);
+    public ResponseEntity<UsuarioDTO> getUsuarioById(@PathVariable Long id, @AuthenticationPrincipal Usuario usuario) {
+        try {
+            UsuarioDTO usuarioDTO = usuarioGerenciamentoService.getUserById(id, usuario);
             return ResponseEntity.ok(usuarioDTO);
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     @GetMapping
-    public ResponseEntity<UsuarioDTO> getUser(@AuthenticationPrincipal Usuario usuario){
+    public ResponseEntity<UsuarioDTO> getUser(@AuthenticationPrincipal Usuario usuario) {
         UsuarioDTO usuarioDTO = usuarioGerenciamentoService.getUser(usuario.getUsername());
 
-        return  ResponseEntity.ok(usuarioDTO);
+        return ResponseEntity.ok(usuarioDTO);
     }
 
     @PutMapping(value = "/profile-image")
-    public String putImageProfile(@AuthenticationPrincipal Usuario usuario, @RequestBody ImageProfileDTO imageProfileDTO){
+    public String putImageProfile(@AuthenticationPrincipal Usuario usuario, @RequestBody ImageProfileDTO imageProfileDTO) {
         return usuarioGerenciamentoService.setProfilePath(usuario.getUsername(), imageProfileDTO.getImage());
     }
 
     @PutMapping(value = "profile-banner")
-    public String putBannerProfile(@AuthenticationPrincipal Usuario usuario, @RequestBody BannerProfileDTO bannerProfileDTO){
+    public String putBannerProfile(@AuthenticationPrincipal Usuario usuario, @RequestBody BannerProfileDTO bannerProfileDTO) {
         return usuarioGerenciamentoService.setBannerProfilePath(usuario.getUsername(), bannerProfileDTO.getBanner());
     }
 }
