@@ -1,0 +1,1130 @@
+{
+	"info": {
+		"_postman_id": "7ac27be8-5c45-4f2f-b263-86a974b91a76",
+		"name": "CRITIX",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34540840"
+	},
+	"item": [
+		{
+			"name": "movie_api",
+			"item": [
+				{
+					"name": "Trending",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkYzQ0NmVkN2Y4YzRiM2E3MmY3ZTczM2I5Zjc4MTBkZiIsIm5iZiI6MTczNDczMzI0NS42ODcsInN1YiI6IjY3NjVlZGJkYWZmNWE3ZDY0MTc0Yjg2MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.5WczJKLgDTEsNRv9ODocZIzhs2IctZsIZRhZJKLns9U",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://api.themoviedb.org/3/trending/all/day?language=pt-BR",
+							"protocol": "https",
+							"host": [
+								"api",
+								"themoviedb",
+								"org"
+							],
+							"path": [
+								"3",
+								"trending",
+								"all",
+								"day"
+							],
+							"query": [
+								{
+									"key": "language",
+									"value": "pt-BR"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tv-popular",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkYzQ0NmVkN2Y4YzRiM2E3MmY3ZTczM2I5Zjc4MTBkZiIsIm5iZiI6MTczNDczMzI0NS42ODcsInN1YiI6IjY3NjVlZGJkYWZmNWE3ZDY0MTc0Yjg2MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.5WczJKLgDTEsNRv9ODocZIzhs2IctZsIZRhZJKLns9U",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://api.themoviedb.org/3/tv/popular",
+							"protocol": "https",
+							"host": [
+								"api",
+								"themoviedb",
+								"org"
+							],
+							"path": [
+								"3",
+								"tv",
+								"popular"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-serie",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkYzQ0NmVkN2Y4YzRiM2E3MmY3ZTczM2I5Zjc4MTBkZiIsIm5iZiI6MTczNDczMzI0NS42ODcsInN1YiI6IjY3NjVlZGJkYWZmNWE3ZDY0MTc0Yjg2MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.5WczJKLgDTEsNRv9ODocZIzhs2IctZsIZRhZJKLns9U",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://api.themoviedb.org/3/tv/93405?language=pt-BR",
+							"protocol": "https",
+							"host": [
+								"api",
+								"themoviedb",
+								"org"
+							],
+							"path": [
+								"3",
+								"tv",
+								"93405"
+							],
+							"query": [
+								{
+									"key": "language",
+									"value": "pt-BR"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-series-videos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkYzQ0NmVkN2Y4YzRiM2E3MmY3ZTczM2I5Zjc4MTBkZiIsIm5iZiI6MTczNDczMzI0NS42ODcsInN1YiI6IjY3NjVlZGJkYWZmNWE3ZDY0MTc0Yjg2MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.5WczJKLgDTEsNRv9ODocZIzhs2IctZsIZRhZJKLns9U",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://api.themoviedb.org/3/tv/157741/videos?language=pt-BR",
+							"protocol": "https",
+							"host": [
+								"api",
+								"themoviedb",
+								"org"
+							],
+							"path": [
+								"3",
+								"tv",
+								"157741",
+								"videos"
+							],
+							"query": [
+								{
+									"key": "language",
+									"value": "pt-BR"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Auth",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{$local}}/auth",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth/register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n  \"nome\": \"Joao Silva\",\r\n  \"email\": \"joaoUser0@gmail.com\",\r\n  \"senha\": \"senha123\",\r\n  \"confirmacaoSenha\": \"senha123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{$local}}/auth/register",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth/login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n  \"login\": \"wallacesantanak0@gmail.com\",\r\n  \"senha\": \"113260@Wallace\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{$local}}/auth/login",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth/recover",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{$local}}}/auth/recover?login=layefi2592@eluxeer.com",
+							"host": [
+								"{{$local}}}"
+							],
+							"path": [
+								"auth",
+								"recover"
+							],
+							"query": [
+								{
+									"key": "login",
+									"value": "layefi2592@eluxeer.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth/reset",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n  \"email\": \"layefi2592@eluxeer.com\",\r\n  \"codigo\": \"558034\",\r\n  \"senha\": \"senha1234\",\r\n  \"confirmacaoSenha\": \"senha1234\"\r\n}\r\n ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{$local}}/auth/reset",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"auth",
+								"reset"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth/google",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idToken\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6ImZhMDcyZjc1Nzg0NjQyNjE1MDg3YzcxODJjMTAxMzQxZTE4ZjdhM2EiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI2MDAyMDg3OTcyMTAtbDlyY21lMTYwZW5iMWkzYjI0cGt2MGY3Njg2Y2syY20uYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI2MDAyMDg3OTcyMTAtbDlyY21lMTYwZW5iMWkzYjI0cGt2MGY3Njg2Y2syY20uYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDA4MzI1ODY5MDQ1MzcyMTAzOTYiLCJlbWFpbCI6IndhbGxhY2VzYW50YW5hazBAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5iZiI6MTczODYxNjcwNSwibmFtZSI6IlfOscqFyoXOscaI0r0gU86xybPGms6xybPOsSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NKWS1ELWpnSGFqX1duRm0wTS1rWVV3Wm54aEw0SjVOeHpEbWQ1NDV3bHlyeVF5WTZ1Uj1zOTYtYyIsImdpdmVuX25hbWUiOiJXzrHKhcqFzrHGiNK9IiwiZmFtaWx5X25hbWUiOiJTzrHJs8aazrHJs86xIiwiaWF0IjoxNzM4NjE3MDA1LCJleHAiOjE3Mzg2MjA2MDUsImp0aSI6IjkyOTc3ZGMyMTc2ZTgwMjY3YmRhOTczOGIwNmQxYjZiY2E5ODNiYmIifQ.SM6T8CVQS5yJFaWvrWSXDqOyahkOqvLnA2wGAg0Ldyjp5yYqLWfWGTOJCOfnk24RuOJSMgS-wC0sfwwpAPwlAy8IAK3_wKdAhMVKuA0H5e0AV0VIqTYHy2kcJVbOsKOJ_syyW0MB1hfl19VhXuMTwzlVJC6U2ZnvX1LdxwevpcAlnyCl0mVNM3LuvN-GibHHIZK864yrEZiqkO0SV0gvKIX1-9on2jcSmefVxJWbafV5rQeCJtuwBPb63lgONb-mmhMKBLFkjWAak0B-77uYbeZfrPFYGSDOHkw5scflz4Dm4s1ZS-IJb23aUoAPscJ8OVYnOh_jdZ8bSyI8l0E-FA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{$local}}/auth/google",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"auth",
+								"google"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth/refresh-token",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3MzkzODk0MzR9.HbiRQwLGKLoRhmVElXBWTkEeL44hlj8AxVv0hFEEX3M\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{$local}}/auth/refresh-token",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"auth",
+								"refresh-token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth Routes",
+			"item": [
+				{
+					"name": "GetUserInfo",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoic2l0ZXdlMjQwM0BoYWxib3YuY29tIiwiZXhwIjoxNzM3NjY3NTk1fQ.M2RjwX3A8760jxMsNPz1JnDi8KUKjTNqocZMW7_ck3k",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{$local}}/user",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PutProfileImage",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoic2l0ZXdlMjQwM0BoYWxib3YuY29tIiwiZXhwIjoxNzM3NjY3NTk1fQ.M2RjwX3A8760jxMsNPz1JnDi8KUKjTNqocZMW7_ck3k",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"image\": \"http://res.cloudinary.com/dg9hqvlas/image/upload/v1736533475/9_-_bQYJ3j2_j6s7oe.png\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{$local}}/user/profile-image",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"user",
+								"profile-image"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PutBannerImage",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoic2l0ZXdlMjQwM0BoYWxib3YuY29tIiwiZXhwIjoxNzM3NjY3NTk1fQ.M2RjwX3A8760jxMsNPz1JnDi8KUKjTNqocZMW7_ck3k",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"banner\": \"https://res.cloudinary.com/dg9hqvlas/image/upload/v1736796386/jipWEZH_48_11zon_l8loqi.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{$local}}/user/profile-banner",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"user",
+								"profile-banner"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUsersInfo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk4NDQ4NTJ9.ZBB5EeCIeHC8Ytz2JutAhQLRF4mRKmAzQETTeuPExvU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{$local}}/user/4",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"user",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProfileImages",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk1NzI3MjR9.bPboqebsoAijrV6RXY_XQk7A3Q6yBeCFY_TaErFVJMg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{$local}}/api/images?folder_name=critix_profile",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"api",
+								"images"
+							],
+							"query": [
+								{
+									"key": "folder_name",
+									"value": "critix_profile"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CloudinaryTests",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "LJ6O8zdf26QSiFQmi__QbAB1Wtg",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "854653142524151",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"expression\": \"folder=critix_profile\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.cloudinary.com/v1_1/dg9hqvlas/resources/search",
+							"protocol": "https",
+							"host": [
+								"api",
+								"cloudinary",
+								"com"
+							],
+							"path": [
+								"v1_1",
+								"dg9hqvlas",
+								"resources",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CloudinaryTestes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "LJ6O8zdf26QSiFQmi__QbAB1Wtg",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "854653142524151",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"expression\": \"folder=critix_profile\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.cloudinary.com/v1_1/dg9hqvlas/resources/search",
+							"protocol": "https",
+							"host": [
+								"api",
+								"cloudinary",
+								"com"
+							],
+							"path": [
+								"v1_1",
+								"dg9hqvlas",
+								"resources",
+								"search"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cloudinary",
+			"item": [
+				{
+					"name": "PostrofileImage",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic ODk4NDI5MzU2NTQ0ODE1Ok05QW9DeHBPalNfaGpkQnhVVmgwZEpwWVhBdw=="
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"expression\": \"folder=critix_profile\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.cloudinary.com/v1_1/dg9hqvlas/resources/search?limit=6",
+							"protocol": "https",
+							"host": [
+								"api",
+								"cloudinary",
+								"com"
+							],
+							"path": [
+								"v1_1",
+								"dg9hqvlas",
+								"resources",
+								"search"
+							],
+							"query": [
+								{
+									"key": "next_cursor",
+									"value": "748b0cb589af9f52615b804187fd3ea0bb950c617654b88a3bf3201c2af5e73d",
+									"disabled": true
+								},
+								{
+									"key": "type",
+									"value": "upload",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "6"
+								}
+							]
+						},
+						"description": "Generated from cURL: curl -X GET \"https://api.cloudinary.com/v1_1/dg9hqvlas/resources/image?prefix=Critix/\"\r\n-H \"Authorization: Basic {base64_encoded_api_key:M9AoCxpOjS_hjdBxUVh0dJpYXAw}\"\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "getImages",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/images?folder_name=critix_profile&next_cursor=132824b6ee14799e47fbe1680d4738805242e1618ae5fcae8e3b3720294a1b9247a37cde19d209220e7834e38e2d52e5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"images"
+							],
+							"query": [
+								{
+									"key": "folder_name",
+									"value": "critix_profile"
+								},
+								{
+									"key": "next_cursor",
+									"value": "132824b6ee14799e47fbe1680d4738805242e1618ae5fcae8e3b3720294a1b9247a37cde19d209220e7834e38e2d52e5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "watchlist",
+			"item": [
+				{
+					"name": "/watchlist/{status}",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk0MTE3NzZ9.bMEGmpf12J13ybXM4KHjHb6WD7ca-KvCrF4n8JZt2H4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{$local}}/watchlist/pendente",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"watchlist",
+								"pendente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/watchlist",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3MzkyMzMwNzd9.nyqKrUgySBQvOhhu1kErApEAmoz_piQ7gezKvI0m3_k",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"mediaId\": 95557,\r\n    \"mediaType\": \"movie\",\r\n    \"mediaStatus\": \"pendente\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{$local}}/watchlist",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"watchlist"
+							]
+						},
+						"description": "Adiciona uma midia na watchlist."
+					},
+					"response": []
+				},
+				{
+					"name": "/watchlist/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk0MTE3NzZ9.bMEGmpf12J13ybXM4KHjHb6WD7ca-KvCrF4n8JZt2H4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"mediaStatus\": \"em_progresso\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{$local}}/watchlist/37",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"watchlist",
+								"37"
+							]
+						},
+						"description": "Atualiza o status de uma whatchlist pelo id."
+					},
+					"response": []
+				},
+				{
+					"name": "/watchlist/{mediaType}/{mediaId}",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3MzkyMzYxMzF9.u62pRBeS955jLviZbAHu8kzionadPb_LRWMwbXa5r7o",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{$local}}/watchlist/movie/95557",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"watchlist",
+								"movie",
+								"95557"
+							]
+						},
+						"description": "Deleta uma uma media da Watchlist."
+					},
+					"response": []
+				},
+				{
+					"name": "/watchlist/{mediaType}/{mediaId}",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3MzkyMzYxMzF9.u62pRBeS955jLviZbAHu8kzionadPb_LRWMwbXa5r7o",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{$local}}/watchlist/tv/127532",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"watchlist",
+								"tv",
+								"127532"
+							]
+						},
+						"description": "Verifica se uma media especifica esta na watchlist."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Review",
+			"item": [
+				{
+					"name": "/reviews",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk5OTg4MzJ9.0AFIDA_xVJ24ykXkAWcedS0i4MXt1JUtFWm7bIhntzs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{$local}}/reviews",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"reviews"
+							]
+						},
+						"description": "Pega as reviews do usuario autenticado."
+					},
+					"response": []
+				},
+				{
+					"name": "/reviews/user/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk5OTg4MzJ9.0AFIDA_xVJ24ykXkAWcedS0i4MXt1JUtFWm7bIhntzs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{$local}}/reviews/user/1",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"reviews",
+								"user",
+								"1"
+							]
+						},
+						"description": "Pega as reviews de um usuario especifico pelo id."
+					},
+					"response": []
+				},
+				{
+					"name": "/reviews/media/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk5OTg4MzJ9.0AFIDA_xVJ24ykXkAWcedS0i4MXt1JUtFWm7bIhntzs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{$local}}/reviews/media/93405",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"reviews",
+								"media",
+								"93405"
+							]
+						},
+						"description": "Pega todas as reviews de uma media especifica."
+					},
+					"response": []
+				},
+				{
+					"name": "/reviews/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk5OTg4MzJ9.0AFIDA_xVJ24ykXkAWcedS0i4MXt1JUtFWm7bIhntzs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{$local}}/reviews/6",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"reviews",
+								"6"
+							]
+						},
+						"description": "Deleta uma review do usuario autenticado peo id."
+					},
+					"response": []
+				},
+				{
+					"name": "/reviews",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk5OTg4MzJ9.0AFIDA_xVJ24ykXkAWcedS0i4MXt1JUtFWm7bIhntzs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\":\"Muito bom essa seria, achei bastante interessante o desenvolvimento dos personagens.\",\r\n    \"mediaId\": 125988,\r\n    \"mediaType\": \"tv\",\r\n    \"nota\": 5,\r\n    \"containsSpoiler\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{$local}}/reviews",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"reviews"
+							]
+						},
+						"description": "Adiciona uma nova review do usuario autenticado."
+					},
+					"response": []
+				},
+				{
+					"name": "/reviews/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk5OTg4MzJ9.0AFIDA_xVJ24ykXkAWcedS0i4MXt1JUtFWm7bIhntzs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\":\"Muito bom essa seria, achei bastante interessante o desenvolvimento\",\r\n    \"nota\": 5,\r\n    \"containsSpoiler\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{$local}}/reviews/7",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"reviews",
+								"7"
+							]
+						},
+						"description": "Faz atualização parcial de uma review do usuario autenticado."
+					},
+					"response": []
+				},
+				{
+					"name": "/reviews/:id/like",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk5OTg4MzJ9.0AFIDA_xVJ24ykXkAWcedS0i4MXt1JUtFWm7bIhntzs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\":\"Muito bom essa seria, achei bastante interessante o desenvolvimento dos personagens.\",\r\n    \"mediaId\": 125988,\r\n    \"mediaType\": \"tv\",\r\n    \"nota\": 5,\r\n    \"containsSpoiler\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{$local}}/reviews",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"reviews"
+							]
+						},
+						"description": "Adiciona um like a uma review."
+					},
+					"response": []
+				},
+				{
+					"name": "/reviews/:id/dislike",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk5OTg4MzJ9.0AFIDA_xVJ24ykXkAWcedS0i4MXt1JUtFWm7bIhntzs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\":\"Muito bom essa seria, achei bastante interessante o desenvolvimento dos personagens.\",\r\n    \"mediaId\": 125988,\r\n    \"mediaType\": \"tv\",\r\n    \"nota\": 5,\r\n    \"containsSpoiler\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{$local}}/reviews",
+							"host": [
+								"{{$local}}"
+							],
+							"path": [
+								"reviews"
+							]
+						},
+						"description": "Adiciona um dislike a uma review."
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

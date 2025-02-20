@@ -1,6 +1,7 @@
 package br.com.projeto.models.review;
 
 import br.com.projeto.models.usuario.Usuario;
+import br.com.projeto.models.watchlist.MediaType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -42,6 +43,9 @@ public class Review {
 
     @Column(name = "data_criacao", nullable = false)
     private LocalDateTime dataCriacao = LocalDateTime.now();
+
+    @Column
+    private  LocalDateTime updatedAt = LocalDateTime.now();
 
     @Column(nullable = false)
     private Integer likes = 0;
