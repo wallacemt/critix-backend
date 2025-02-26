@@ -23,4 +23,5 @@ public class ReviewDTO {
     private Integer likes;
     private Integer deslikes;
     private Integer comentarios;
+    private Boolean isUser = false;
 }

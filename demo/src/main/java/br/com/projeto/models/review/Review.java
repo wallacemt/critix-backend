@@ -45,7 +45,7 @@ public class Review {
     private LocalDateTime dataCriacao = LocalDateTime.now();
 
     @Column
-    private  LocalDateTime updatedAt = LocalDateTime.now();
+    private  LocalDateTime updatedAt;
 
     @Column(nullable = false)
     private Integer likes = 0;

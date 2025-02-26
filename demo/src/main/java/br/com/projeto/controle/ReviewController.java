@@ -2,11 +2,20 @@ package br.com.projeto.controle;
 
 
 import br.com.projeto.dto.ReviewDTO;
+import br.com.projeto.dto.UserLikeDTO;
+import br.com.projeto.models.review.LikeType;
 import br.com.projeto.models.review.Review;
+import br.com.projeto.models.watchlist.MediaType;
 import br.com.projeto.service.ReviewService;
 import br.com.projeto.models.usuario.Usuario;
+import com.sun.jdi.request.DuplicateRequestException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,36 +35,63 @@ public class ReviewController {
     private ReviewService reviewService;
 
     @GetMapping
-    public ResponseEntity<List<ReviewDTO>> getReviews(@AuthenticationPrincipal Usuario usuario) {
-        return ResponseEntity.ok(reviewService.getReviews(usuario));
+    public ResponseEntity<Page<ReviewDTO>> getReviews(
+            @AuthenticationPrincipal Usuario usuario,
+            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        return ResponseEntity.ok(reviewService.getReviews(usuario, pageable));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getReviewById(
+            @AuthenticationPrincipal Usuario usuario,
+            @PathVariable Long id
+    ) {
+        try {
+            return ResponseEntity.ok(reviewService.getById(usuario, id));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Review não encontrada!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro interno no servidor");
+        }
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<ReviewDTO>> getByIdUser(@PathVariable Long userId) {
-        return ResponseEntity.ok(reviewService.getReviewsByUserId(userId));
+    public ResponseEntity<Page<ReviewDTO>> getByIdUser(
+            @AuthenticationPrincipal Usuario usuario,
+            @PathVariable Long userId,
+            @PageableDefault(size = 10, sort = {"id", "dataCriacao"}, direction = Sort.Direction.DESC) Pageable pageable
+
+    ) {
+        return ResponseEntity.ok(reviewService.getReviewsByUserId(userId, usuario, pageable));
     }
 
-    @GetMapping("/media/{mediaId}")
-    public ResponseEntity<List<ReviewDTO>> getByIDMidia(@PathVariable Long mediaId) {
-        return ResponseEntity.ok(reviewService.getReviewsByMediaId(mediaId));
+    @GetMapping("/media/{mediaType}/{mediaId}")
+    public ResponseEntity<Page<ReviewDTO>> getByIDMidia(
+            @AuthenticationPrincipal Usuario usuario,
+            @PathVariable Long mediaId,
+            @PathVariable MediaType mediaType,
+            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable
+
+    ) {
+        return ResponseEntity.ok(reviewService.getReviewsByMediaId(mediaId, mediaType, usuario, pageable));
     }
 
     @PostMapping
-    public ResponseEntity<ReviewDTO> postReview(
+    public ResponseEntity<?> postReview(
             @AuthenticationPrincipal Usuario usuario,
             @RequestBody ReviewDTO reviewDTO) {
-        Review review = new Review();
-        review.setUsuario(usuario);
-        review.setMediaId(reviewDTO.getMediaId());
-        review.setMediaType(reviewDTO.getMediaType());
-        review.setNota(reviewDTO.getNota());
-        review.setContent(reviewDTO.getContent());
-        review.setContainsSpoler(reviewDTO.getContainsSpoiler());
-        review.setDataCriacao(LocalDateTime.now());
-        review.setLikes(0);
-        review.setDeslikes(0);
-        review.setComentarios(0);
-        return ResponseEntity.ok(reviewService.postReview(review));
+        try {
+            return ResponseEntity.ok(reviewService.postReview(reviewDTO, usuario));
+        } catch (DuplicateKeyException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("Review já adicionada a essa mídia.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro interno no servidor");
+        }
     }
 
 
@@ -72,7 +108,6 @@ public class ReviewController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro inesperado: " + e.getMessage());
         }
     }
-
 
     @PatchMapping("/{id}")
     public ResponseEntity<ReviewDTO> partialUpdateReview(
@@ -125,4 +160,27 @@ public class ReviewController {
                     .body(null);
         }
     }
+
+    @GetMapping("/{id}/{interaction}")
+    public ResponseEntity<?> verifyInteration(
+            @PathVariable Long id,
+            @PathVariable LikeType interaction,
+            @AuthenticationPrincipal Usuario usuario) {
+        try {
+            return ResponseEntity.ok(reviewService.verifyInteration(id, usuario, interaction));
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
+    }
+
+    @GetMapping("/{reviewId}/users")
+    public ResponseEntity<List<UserLikeDTO>> getUsersWhoLikedReview(@PathVariable Long reviewId) {
+        List<UserLikeDTO> usersWhoLiked = reviewService.getUserWhoLikedReview(reviewId);
+        return ResponseEntity.ok(usersWhoLiked);
+    }
+
 }

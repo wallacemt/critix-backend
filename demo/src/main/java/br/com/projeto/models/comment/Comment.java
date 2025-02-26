@@ -1,24 +1,38 @@
 package br.com.projeto.models.comment;
 
+import br.com.projeto.models.review.Review;
+import br.com.projeto.models.usuario.Usuario;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Table(name = "comments")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long userId;
-    private Long reviewId;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private Usuario usuario;
+
+
+    @ManyToOne
+    @JoinColumn(name = "review_id", nullable = false)
+    private Review review;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
+
+    @Column(name = "data_criacao", nullable = false)
     private LocalDateTime dataCriacao = LocalDateTime.now();
 
+    @Column
+    private LocalDateTime updatedAt;
 }

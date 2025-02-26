@@ -16,4 +16,6 @@ public class CommentDTO {
     private Long reviewId;
     private String content;
     private LocalDateTime dataCriacao;
+    private LocalDateTime updatedAt;
+    private  Boolean isOwner;
 }
