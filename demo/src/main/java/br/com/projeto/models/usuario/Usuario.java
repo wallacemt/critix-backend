@@ -1,5 +1,6 @@
 package br.com.projeto.models.usuario;
 
+import br.com.projeto.models.followers.Follower;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
@@ -54,6 +55,12 @@ public class Usuario implements UserDetails {
 
     @Column(nullable = false)
     private int followings = 0; // Quantidade de pessoas que o usuário segue
+
+    @OneToMany(mappedBy = "follower")
+    private List<Follower> seguidores; // Usuários que seguem este usuário
+
+    @OneToMany(mappedBy = "following")
+    private List<Follower> seguindo; // Usuários que este usuário segue
 
     @Column(name = "codigo_recuperacao_senha")
     private String codigoRecuperacaoSenha;
