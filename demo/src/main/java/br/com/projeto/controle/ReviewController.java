@@ -125,4 +125,16 @@ public class ReviewController {
                     .body(null);
         }
     }
+
+    // Retorna uma lista das reviews que o usuário autenticado segue
+    @GetMapping("/following")
+    public ResponseEntity<List<ReviewDTO>> getReviewFollowing(@AuthenticationPrincipal Usuario usuario){
+        try{
+            List<ReviewDTO> reviews = reviewService.getReviewsFollowing(usuario);
+            return ResponseEntity.ok(reviews);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+
+    }
 }
