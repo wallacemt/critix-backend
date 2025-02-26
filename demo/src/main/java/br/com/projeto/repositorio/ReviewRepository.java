@@ -1,7 +1,6 @@
 package br.com.projeto.repositorio;
 
 
-
 import br.com.projeto.models.review.Review;
 import br.com.projeto.models.usuario.Usuario;
 import br.com.projeto.models.watchlist.MediaType;
@@ -17,14 +16,18 @@ import java.util.List;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     Page<Review> findByUsuario(Usuario usuario, Pageable pageable);
+
     List<Review> findByUsuario(Usuario usuario);
+
     Page<Review> findByMediaIdAndMediaType(Long mediaId, MediaType mediaType, Pageable pageable);
+
     int countByUsuario(Usuario usuario);
 
-    @Query("SELECT r FROM Review r "+
-            "JOIN r.usuario u "+ //Busca as reviews e seus respectivos usuários
-            "JOIN u.seguindo f "+ // Acessa os usuários que o usuário segue
-            "WHERE f.follower.id = :usuarioId "+ // Compara com o ID do usuário autenticado
-            "ORDER BY r.dataCriacao DESC ")// Adiciona a ordenação por data de criação
-    List<Review> findReviewsByFollowedUsers(@Param("usuarioId") Long usuarioId, Pageable pageable);
+    @Query("SELECT r FROM Review r " +
+            "JOIN r.usuario u " +  // Junção com a tabela de usuários (onde r.usuario é o relacionamento)
+            "JOIN Follower f ON f.following.id = u.id " + // Junção com a tabela de followers usando a chave estrangeira 'following_id'
+            "WHERE f.follower.id = :usuarioId " + // Condição de filtro: apenas os seguidores do usuário autenticado
+            "ORDER BY r.dataCriacao DESC") // Ordenação por data de criação da review
+    Page<Review> findReviewsByFollowedUsers(@Param("usuarioId") Long usuarioId, Pageable pageable);
+
 }

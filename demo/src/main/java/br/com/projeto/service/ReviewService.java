@@ -15,9 +15,7 @@ import br.com.projeto.repositorio.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -107,6 +105,23 @@ public class ReviewService {
         return new PageImpl<>(reviewDTOs, pageable, reviewsPage.getTotalElements());
     }
 
+    // Retorna uma lista das reviews que o usuário autenticado segue
+    public Page<ReviewDTO> getReviewsFollowing(Usuario usuario, Pageable pageable) {
+        try {
+            // Busca as avaliações dos usuários que o usuário autenticado segue com no máximo de 20 avaliações
+            Page<Review> reviews = reviewRepository.findReviewsByFollowedUsers(usuario.getId(), pageable);
+
+            List<ReviewDTO> reviewDTOS = reviews.stream()
+                    .map(ReviewDTO::new)// Converte Review para ReviewDTO
+                    .collect(Collectors.toList());
+
+            return new PageImpl<>(reviewDTOS, pageable, reviews.getTotalElements());
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar avaliações dos usuários seguidos", e);
+        }
+    }
+
+
     public List<UserLikeDTO> getUserWhoLikedReview(Long reviewId) {
         Optional<Review> reviewOptional = reviewRepository.findById(reviewId);
         if (!reviewOptional.isPresent()) {
@@ -124,6 +139,7 @@ public class ReviewService {
 
         return usersWhoLiked;
     }
+
 
     public ReviewDTO postReview(ReviewDTO reviewDTO, Usuario usuario) {
         Review review = new Review();
@@ -212,22 +228,6 @@ public class ReviewService {
             throw new UsernameNotFoundException("Review not found");
         }
     }
-
-//    // Retorna uma lista das reviews que o usuário autenticado segue
-//    public List<ReviewDTO> getReviewsFollowing(Usuario usuario){
-//        try {
-//            // Busca as avaliações dos usuários que o usuário autenticado segue com no máximo de 20 avaliações
-//            List<Review> reviews = reviewRepository.findReviewsByFollowedUsers(usuario.getId(),
-//                    PageRequest.of(0, 20, Sort.by("dataCriacao").descending()));
-//
-//            return reviews.stream()
-//                    .map(ReviewDTO::new)// Converte Review para ReviewDTO
-//                    .collect(Collectors.toList());
-//        }catch (Exception e){
-//            throw new RuntimeException("Erro ao buscar avaliações dos usuários seguidos",e);
-//        }
-//
-//    }
 
 
     public boolean verifyInteration(Long id, Usuario usuario, LikeType reviewLike) {

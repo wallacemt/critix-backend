@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -183,13 +184,19 @@ public class ReviewController {
         return ResponseEntity.ok(usersWhoLiked);
     }
 
-//    @GetMapping("/following")
-//    public ResponseEntity<List<ReviewDTO>> getReviewFollowing(@AuthenticationPrincipal Usuario usuario){
-//        try{
-//            List<ReviewDTO> reviews = reviewService.getReviewsFollowing(usuario);
-//            return ResponseEntity.ok(reviews);
-//        }catch (Exception e){
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-//        }
-//    }
+    @GetMapping("/following")
+    public ResponseEntity<Page<ReviewDTO>> getReviewFollowing(
+            @AuthenticationPrincipal Usuario usuario,
+            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        try {
+            Page<ReviewDTO> reviews = reviewService.getReviewsFollowing(usuario, pageable);
+            if (reviews.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(reviews);
+            }
+            return ResponseEntity.ok(reviews); // Retorna status 200 e as reviews
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
