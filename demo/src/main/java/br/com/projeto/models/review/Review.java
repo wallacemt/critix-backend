@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "review")// Nome da tabela no banco de dados
+@Table(name = "review")
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,14 +32,14 @@ public class Review {
     @Column(name = "media_type", nullable = false)
     private MediaType mediaType; // Tipo da media da review
 
-    @Column(name="nota",nullable = false)
+    @Column(nullable = false)
     private Integer nota; // Nota da review (0-5)
 
-    @Column(name = "content",nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String content; // Conteudo da Review
 
     @Column(name = "contains_spoiler", nullable = false)
-    private Boolean containsSpoler = false; //Inicializado como false
+    private Boolean containsSpoler = false;
 
     @Column(name = "data_criacao", nullable = false)
     private LocalDateTime dataCriacao = LocalDateTime.now();

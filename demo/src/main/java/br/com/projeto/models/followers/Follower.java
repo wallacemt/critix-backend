@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "followers")
 public class Follower {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,6 +28,6 @@ public class Follower {
     @JoinColumn(name = "following_id")
     private Usuario following;
 
-    @Column(name = "created_art")
-    private LocalDateTime createdArt;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 }
