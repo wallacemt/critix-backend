@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,9 +26,32 @@ public class FollowController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Page<UsuarioFollowDTO>> getFollowing(@PathVariable Long id, Pageable pageable) {
+    public ResponseEntity<?> getisFollowing(@PathVariable Long id, @AuthenticationPrincipal Usuario usuario) {
         try {
-            return ResponseEntity.ok(followerService.getFollowing(id, pageable));
+            return ResponseEntity.ok(followerService.getIsFollow(id, usuario));
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/{userId}/followers")
+    public ResponseEntity<Page<UsuarioFollowDTO>> getFollowers(
+            @PathVariable Long userId,
+            @AuthenticationPrincipal Usuario usuario,
+            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        Page<UsuarioFollowDTO> followers = followerService.getFollowers(userId, pageable, usuario);
+        return ResponseEntity.ok(followers);
+    }
+
+    @GetMapping("/{id}/followings")
+    public ResponseEntity<Page<UsuarioFollowDTO>> getFollowing(
+            @PathVariable Long id,
+            @AuthenticationPrincipal Usuario usuario,
+            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        try {
+            return ResponseEntity.ok(followerService.getFollowing(id, pageable, usuario));
         } catch (UsernameNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } catch (Exception e) {
@@ -40,8 +65,7 @@ public class FollowController {
             @PathVariable Long id
     ) {
         try {
-            followerService.follow(usuario, id);
-            return ResponseEntity.ok("Seguindo o usuário com ID " + id);
+            return followerService.follow(usuario, id);
         } catch (DuplicateKeyException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro: " + e.getMessage());
         } catch (UsernameNotFoundException e) {
@@ -58,8 +82,7 @@ public class FollowController {
             @PathVariable Long id
     ) {
         try {
-            followerService.unfollow(usuario, id);
-            return ResponseEntity.ok("Deixou de seguir o usuário com ID " + id);
+            return followerService.unfollow(usuario, id);
         } catch (UsernameNotFoundException | EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro: " + e.getMessage());
         } catch (Exception e) {

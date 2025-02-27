@@ -19,5 +19,8 @@ public interface FollowerRepository extends JpaRepository<Follower, Long> {
     @Query("SELECT f FROM Follower f JOIN FETCH f.following WHERE f.follower = :follower")
     Page<Follower> findByFollower(Usuario follower, Pageable pageable);
 
+    @Query("SELECT f FROM Follower f JOIN FETCH f.follower WHERE f.following = :usuario")
+    Page<Follower> findByFollowing(Usuario usuario, Pageable pageable);
+
 
 }

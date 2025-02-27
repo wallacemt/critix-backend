@@ -178,9 +178,13 @@ public class ReviewController {
         }
     }
 
-    @GetMapping("/{reviewId}/users")
-    public ResponseEntity<List<UserLikeDTO>> getUsersWhoLikedReview(@PathVariable Long reviewId) {
-        List<UserLikeDTO> usersWhoLiked = reviewService.getUserWhoLikedReview(reviewId);
+    @GetMapping("/{reviewId}/{type}/users")
+    public ResponseEntity<Page<UserLikeDTO>> getUsersWhoLikedReview(
+            @PathVariable Long reviewId,
+            @PathVariable LikeType type, Pageable pageable,
+            @AuthenticationPrincipal Usuario usuario
+    ) {
+        Page<UserLikeDTO> usersWhoLiked = reviewService.getUserWhoLikedReview(reviewId, type, pageable, usuario);
         return ResponseEntity.ok(usersWhoLiked);
     }
 

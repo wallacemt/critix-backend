@@ -122,22 +122,24 @@ public class ReviewService {
     }
 
 
-    public List<UserLikeDTO> getUserWhoLikedReview(Long reviewId) {
+    public Page<UserLikeDTO> getUserWhoLikedReview(Long reviewId, LikeType type, Pageable pageable, Usuario usuario) {
         Optional<Review> reviewOptional = reviewRepository.findById(reviewId);
         if (!reviewOptional.isPresent()) {
             throw new EntityNotFoundException("Avaliação não encontrada!");
         }
         Review review = reviewOptional.get();
-        List<ReviewLike> reviewLikes = reviewLikeRepository.findByReview(review);
+        Page<ReviewLike> reviewLikes = reviewLikeRepository.findByReviewAndLikeType(review, type, pageable);
 
         List<UserLikeDTO> usersWhoLiked = reviewLikes.stream()
                 .map(reviewLike -> new UserLikeDTO(
                         reviewLike.getUsuario().getId(),
-                        reviewLike.getUsuario().getNome()
+                        reviewLike.getUsuario().getNome(),
+                        reviewLike.getUsuario().getImagePath(),
+                        reviewLike.getUsuario().equals(usuario)
                 ))
                 .collect(Collectors.toList());
 
-        return usersWhoLiked;
+        return new PageImpl<>(usersWhoLiked, pageable, reviewLikes.getTotalElements());
     }
 
 

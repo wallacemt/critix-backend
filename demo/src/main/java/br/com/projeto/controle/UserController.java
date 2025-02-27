@@ -32,7 +32,6 @@ public class UserController {
     @GetMapping
     public ResponseEntity<UsuarioDTO> getUser(@AuthenticationPrincipal Usuario usuario) {
         UsuarioDTO usuarioDTO = usuarioGerenciamentoService.getUser(usuario.getUsername());
-
         return ResponseEntity.ok(usuarioDTO);
     }
 
