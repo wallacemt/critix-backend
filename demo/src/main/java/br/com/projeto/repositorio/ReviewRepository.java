@@ -18,8 +18,10 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Page<Review> findByUsuario(Usuario usuario, Pageable pageable);
 
     List<Review> findByUsuario(Usuario usuario);
-
+    List<Review> findByMediaId(Long mediaId);
     Page<Review> findByMediaIdAndMediaType(Long mediaId, MediaType mediaType, Pageable pageable);
+    List<Review> findAllByOrderByLikesDesc();
+    Page<Review> findAllByOrderByLikesDesc(Pageable pageable);
 
     int countByUsuario(Usuario usuario);
 

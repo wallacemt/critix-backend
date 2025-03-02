@@ -13,6 +13,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -203,4 +204,42 @@ public class ReviewController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @GetMapping("/media/{mediaId}/notaGeral")
+    public ResponseEntity<Map<String, Object>> getAverageRating(
+            @PathVariable Long mediaId
+    ) {
+        try {
+            Map<String, Object> resultado = reviewService.calcularNotaGeral(mediaId);
+            return ResponseEntity.ok(resultado);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+
+
+
+    @GetMapping("/top")
+    public ResponseEntity<Page<ReviewDTO>> getTopReviews(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @AuthenticationPrincipal Usuario usuario
+    ) {
+        try {
+
+            Pageable pageable = PageRequest.of(page, size);
+
+
+            Page<ReviewDTO> topReviews = reviewService.getTopReviews(pageable, usuario);
+
+            return ResponseEntity.ok(topReviews);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+
+
+
 }
