@@ -48,7 +48,7 @@ public class CommentService {
         return convertToDTO(savedReview, usuario);
     }
 
-    public CommentDTO getByComment(Long id, Usuario usuario){
+    public CommentDTO getByComment(Long id, Usuario usuario) {
         Optional<Comment> comment = commentRepository.findById(id);
         if (comment.isPresent()) {
             return convertToDTO(comment.get(), usuario);
@@ -57,7 +57,7 @@ public class CommentService {
         }
     }
 
-    public CommentDTO updateComment(Long id, Usuario usuario, CommentDTO commentDTO){
+    public CommentDTO updateComment(Long id, Usuario usuario, CommentDTO commentDTO) {
         Optional<Comment> comment = commentRepository.findById(id);
         if (comment.isPresent()) {
             if (comment.get().getUsuario().equals(usuario)) {
@@ -65,7 +65,7 @@ public class CommentService {
                 comment.get().setUpdatedAt(LocalDateTime.now());
                 Comment savedComment = commentRepository.save(comment.get());
                 return convertToDTO(savedComment, usuario);
-            } else{
+            } else {
                 throw new IllegalArgumentException("Comentario com ID " + id + " não associada ao usuário!");
             }
         } else {
@@ -79,7 +79,7 @@ public class CommentService {
         if (comment.isPresent()) {
             if (comment.get().getUsuario().equals(usuario)) {
                 commentRepository.deleteById(id);
-            } else{
+            } else {
                 throw new IllegalArgumentException("Comentario com ID " + id + " não associada ao usuário!");
             }
         } else {
@@ -87,16 +87,20 @@ public class CommentService {
         }
     }
 
-
-        private CommentDTO convertToDTO (Comment comment, Usuario usuario){
-            return new CommentDTO(
-                    comment.getId(),
-                    comment.getUsuario().getId(),
-                    comment.getReview().getId(),
-                    comment.getContent(),
-                    comment.getDataCriacao(),
-                    comment.getUpdatedAt(),
-                    comment.getUsuario().equals(usuario)
-            );
-        }
+    public Long getUserByReviewId(Long reviewId) {
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado!"));
+        return review.getUsuario().getId();
     }
+
+    private CommentDTO convertToDTO(Comment comment, Usuario usuario) {
+        return new CommentDTO(
+                comment.getId(),
+                comment.getUsuario().getId(),
+                comment.getReview().getId(),
+                comment.getContent(),
+                comment.getDataCriacao(),
+                comment.getUpdatedAt(),
+                comment.getUsuario().equals(usuario)
+        );
+    }
+}

@@ -3,9 +3,11 @@ package br.com.projeto.controle;
 
 import br.com.projeto.dto.ReviewDTO;
 import br.com.projeto.dto.UserLikeDTO;
+import br.com.projeto.models.notifications.NotificationType;
 import br.com.projeto.models.review.LikeType;
 import br.com.projeto.models.review.Review;
 import br.com.projeto.models.watchlist.MediaType;
+import br.com.projeto.service.NotificationService;
 import br.com.projeto.service.ReviewService;
 import br.com.projeto.models.usuario.Usuario;
 import com.sun.jdi.request.DuplicateRequestException;
@@ -34,6 +36,9 @@ import java.util.Map;
 public class ReviewController {
     @Autowired
     private ReviewService reviewService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @GetMapping
     public ResponseEntity<Page<ReviewDTO>> getReviews(
@@ -137,7 +142,21 @@ public class ReviewController {
             @AuthenticationPrincipal Usuario usuario,
             @PathVariable Long id) {
         try {
-            return ResponseEntity.ok(reviewService.toggleLike(id, usuario));
+            // Realiza a ação de curtir
+            ReviewDTO reviewDTO = reviewService.toggleLike(id, usuario);
+
+            // Envia uma notificação para o autor da review
+            String message = "👍 " + usuario.getNome() + " curtiu sua review";
+            notificationService.sendNotification(
+                    reviewDTO.getUserId(),
+                    usuario.getImagePath(),
+                    usuario.getNome(),
+                    usuario.getId(),
+                    message,
+                    id.toString(),
+                    NotificationType.like
+            );
+            return ResponseEntity.ok(reviewDTO);
         } catch (UsernameNotFoundException e) {
             System.out.println("Erro: Review não encontrada - ID: " + id);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

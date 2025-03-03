@@ -1,8 +1,10 @@
 package br.com.projeto.controle;
 
 import br.com.projeto.dto.UsuarioFollowDTO;
+import br.com.projeto.models.notifications.NotificationType;
 import br.com.projeto.models.usuario.Usuario;
 import br.com.projeto.service.FollowerService;
+import br.com.projeto.service.NotificationService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -24,6 +26,8 @@ public class FollowController {
     @Autowired
     private FollowerService followerService;
 
+    @Autowired
+    private NotificationService notificationService;
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getisFollowing(@PathVariable Long id, @AuthenticationPrincipal Usuario usuario) {
@@ -65,7 +69,19 @@ public class FollowController {
             @PathVariable Long id
     ) {
         try {
-            return followerService.follow(usuario, id);
+            ResponseEntity<String> response = followerService.follow(usuario, id);
+            String message = "🎉 " + usuario.getNome() + " começou a te seguir!";
+            notificationService.sendNotification(
+                    id,
+                    usuario.getImagePath(),
+                    usuario.getNome(),
+                    usuario.getId(),
+                    message,
+                    usuario.getId().toString(),
+                    NotificationType.follow
+            );
+
+            return response;
         } catch (DuplicateKeyException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro: " + e.getMessage());
         } catch (UsernameNotFoundException e) {

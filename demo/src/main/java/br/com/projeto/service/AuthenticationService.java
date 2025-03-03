@@ -1,19 +1,22 @@
 package br.com.projeto.service;
 
-import br.com.projeto.dto.AutheticationDTO;
-import br.com.projeto.dto.RegisterDTO;
-import br.com.projeto.dto.ResetDTO;
+import br.com.projeto.dto.*;
 import br.com.projeto.infra.security.TokenService;
-import br.com.projeto.dto.EmailDTO;
 import br.com.projeto.models.usuario.AlterarSenhaResponse;
 import br.com.projeto.models.usuario.Usuario;
 import br.com.projeto.repositorio.UsuarioRepository;
+import br.com.projeto.ultils.AccountDisabledException;
+import br.com.projeto.ultils.EmailAlreadyRegisteredException;
+import br.com.projeto.ultils.PasswordsDoNotMatchException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.apache.http.auth.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -60,12 +63,12 @@ public class AuthenticationService {
             String nome = jsonResponse.get("name").getAsString();
 
             Optional<Usuario> existingUser = usuarioRepository.findByEmail(email);
-            if(existingUser.isPresent()){
+            if (existingUser.isPresent()) {
                 Usuario usuario = existingUser.get();
                 String token = tokenService.generateToken(usuario);
                 String refreshToken = tokenService.generateRefreshToken(usuario);
 
-                Map<String, String>  responseMap = new HashMap<>();
+                Map<String, String> responseMap = new HashMap<>();
                 responseMap.put("message", "Bem-Vindo " + usuario.getNome());
                 responseMap.put("token", token);
                 responseMap.put("refreshToken", refreshToken);
@@ -76,26 +79,27 @@ public class AuthenticationService {
             String senhaTemp = "temp_password_" + email;
             String encryptedPassword = passwordEncoder.encode(senhaTemp);
 
-            Usuario newUser = new Usuario(null, nome, email, encryptedPassword, null, null, 0,0,0);
+            Usuario newUser = new Usuario(null, nome, email, encryptedPassword, null, null, 0, 0, 0);
             usuarioRepository.save(newUser);
 
             //Gera o token para o novo usuario
             String token = tokenService.generateToken(newUser);
             String refreshToken = tokenService.generateRefreshToken(newUser);
-            Map<String, String>  responseMap = new HashMap<>();
+            Map<String, String> responseMap = new HashMap<>();
             responseMap.put("message", "Usuário registrado com sucesso!");
-            responseMap.put("token",token);
+            responseMap.put("token", token);
             responseMap.put("refreshToken", refreshToken);
-            return  responseMap;
+            return responseMap;
         } catch (Exception e) {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("error", "Erro ao processar a autenticação do Google");
-            return  errorResponse;
+            return errorResponse;
         }
     }
 
-    public Map<String, String> login(AutheticationDTO data) {
+    public LoginResponseDTO login(AutheticationDTO data) throws InvalidCredentialsException {
         try {
+            // Tentativa de autenticação com as credenciais fornecidas
             var usernameSenha = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
             var auth = this.authenticationManager.authenticate(usernameSenha);
 
@@ -103,31 +107,27 @@ public class AuthenticationService {
             String acessToken = tokenService.generateToken(usuario);
             String refreshToken = tokenService.generateRefreshToken(usuario);
 
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "Bem-vindo, " + ((Usuario) auth.getPrincipal()).getNome());
-            response.put("token", acessToken);
-            response.put("refreshToken", refreshToken);
-            return response;
+
+            return new LoginResponseDTO("Bem-Vindo, " + usuario.getNome(), acessToken, refreshToken);
+
+        } catch (BadCredentialsException e) {
+            throw new InvalidCredentialsException("Usuário ou senha inválidos.");
+        } catch (DisabledException e) {
+            throw new AccountDisabledException("Sua conta está desativada.");
         } catch (Exception e) {
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("message", "Usuário ou senha inválidos.");
-            return errorResponse;
+            throw new RuntimeException("Ocorreu um erro inesperado. Tente novamente.");
         }
     }
 
     public Map<String, String> register(RegisterDTO data) {
         // Verifica se o email já existe no banco de dados
         if (this.usuarioRepository.findByEmail(data.email()).isPresent()) {
-            return new HashMap<String, String>() {{
-                put("error", "Email já registrado!");
-            }};
+            throw new EmailAlreadyRegisteredException("Email já registrado!");  // Lançar uma exceção personalizada
         }
 
         // Verifica se as senhas coincidem
         if (!data.senha().equals(data.confirmacaoSenha())) {
-            return new HashMap<String, String>() {{
-                put("error", "As senhas não coincidem!");
-            }};
+            throw new PasswordsDoNotMatchException("As senhas não coincidem!");  // Lançar uma exceção personalizada
         }
 
         // Criptografa a senha antes de salvar no banco
@@ -154,13 +154,13 @@ public class AuthenticationService {
         emailService.enviarEmail(emailDTO);
 
         // Retorna uma resposta de sucesso
-        return new HashMap<String, String>() {{
-            put("message", "Usuário registrado com sucesso!");
-        }};
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Usuário registrado com sucesso!");
+        return response;
     }
 
     public Map<String, String> recover(String email) {
-        if (this.usuarioRepository.findByEmail(email).isEmpty()){
+        if (this.usuarioRepository.findByEmail(email).isEmpty()) {
             return new HashMap<String, String>() {{
                 put("error", "Usuário não Cadastrado!");
             }};
@@ -196,17 +196,17 @@ public class AuthenticationService {
     }
 
     public Map<String, String> resetPassword(ResetDTO resetDTO) {
-        if (this.usuarioRepository.findByEmail(resetDTO.email()) == null){
+        if (this.usuarioRepository.findByEmail(resetDTO.email()) == null) {
             return new HashMap<String, String>() {{
                 put("error", "Usuário não cadastrado!");
             }};
         }
-        if(!resetDTO.senha().equals(resetDTO.confirmacaoSenha())){
+        if (!resetDTO.senha().equals(resetDTO.confirmacaoSenha())) {
             return new HashMap<String, String>() {{
                 put("error", "As senhas não coincidem!");
             }};
         }
-        if(resetDTO.senha().length()<8){
+        if (resetDTO.senha().length() < 8) {
             return new HashMap<String, String>() {{
                 put("error", "A senha deve ter pelo menos 8 caracteres.");
             }};

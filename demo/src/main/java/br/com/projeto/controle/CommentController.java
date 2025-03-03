@@ -3,8 +3,10 @@ package br.com.projeto.controle;
 
 import br.com.projeto.dto.CommentDTO;
 import br.com.projeto.models.comment.Comment;
+import br.com.projeto.models.notifications.NotificationType;
 import br.com.projeto.models.usuario.Usuario;
 import br.com.projeto.service.CommentService;
+import br.com.projeto.service.NotificationService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +27,9 @@ public class CommentController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @GetMapping("/review/{reviewId}")
     public ResponseEntity<Page<CommentDTO>> getByReviewId(
@@ -61,8 +66,24 @@ public class CommentController {
         if (commentDTO.getContent() == null || commentDTO.getContent().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
-        return ResponseEntity.ok(commentService.postComment(commentDTO, reviewId, usuario));
+        // Realiza a ação de comentar
+        CommentDTO savedComment = commentService.postComment(commentDTO, reviewId, usuario);
+
+        // Envia uma notificação para o autor da review
+        String message = "💬 " + usuario.getNome() + " comentou na sua review: " + savedComment.getContent();
+        notificationService.sendNotification(
+                commentService.getUserByReviewId(reviewId),
+                usuario.getImagePath(),
+                usuario.getNome(),
+                usuario.getId(),
+                message,
+                usuario.getId().toString(),
+                NotificationType.comment
+        );
+
+        return ResponseEntity.ok(savedComment);
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateComment(
