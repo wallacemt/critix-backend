@@ -295,12 +295,44 @@ public class ReviewService {
         return convertToDTO(reviewRepository.save(review), usuario);
     }
 
-
     private void updateLikeDislikeCount(Review review) {
         long likeCount = reviewLikeRepository.countByReviewAndLikeType(review, LikeType.like);
         long dislikeCount = reviewLikeRepository.countByReviewAndLikeType(review, LikeType.dislike);
         review.setLikes((int) likeCount);
         review.setDeslikes((int) dislikeCount);
+    }
+
+    public Map<String, Object> calcularNotaGeral(Long mediaId) {
+        List<Review> reviews = reviewRepository.findByMediaId(mediaId);
+
+        int notaGeral = -1;
+        int totalReviews = reviews.size();
+
+        if (!reviews.isEmpty()) {
+            double sum = reviews.stream()
+                    .mapToDouble(Review::getNota)
+                    .sum();
+            double media = sum / totalReviews;
+            notaGeral = (int) Math.round(media);
+        }
+
+        return Map.of(
+                "notaGeral", notaGeral,
+                "totalReviews", totalReviews
+        );
+    }
+
+    public Page<ReviewDTO> getTopReviews(Pageable pageable, Usuario usuario) {
+        Pageable sortedByLikes = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                Sort.by(Sort.Direction.DESC, "likes")
+        );
+        Page<Review> reviewsPage = reviewRepository.findAll(sortedByLikes);
+        List<ReviewDTO> reviewDTOs = reviewsPage.getContent().stream()
+                .map(review -> convertToDTO(review, usuario))
+                .collect(Collectors.toList());
+        return new PageImpl<>(reviewDTOs, sortedByLikes, reviewsPage.getTotalElements());
     }
 
 
