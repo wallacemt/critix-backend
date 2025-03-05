@@ -38,8 +38,7 @@ O backend do **Critix** é responsável por fornecer a API REST que alimenta a p
     <img align='center' height='48' width='48' title='MySql' alt='MySql' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original-wordmark.svg
     ' /> &nbsp;
     <img align='center' height='48' width='48' style="filter: invert(1);" title='WebSocket' alt='WebSocket' src='https://www.svgrepo.com/show/354553/websocket.svg' /> &nbsp;
-    <img align='center' height='48' width='48'  title='Postman' alt='Postman' src='
-        https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg' /> &nbsp;
+    <img align='center' height='48' width='48'  title='Postman' alt='Postman' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg' /> &nbsp;
     <img align='center' height='48' width='48'  title='Junit' alt='Junit' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/junit/junit-original-wordmark.svg' /> &nbsp;
     <img align='center' height='48' width='48'  title='Junit' alt='Junit' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/oauth/oauth-original.svg' /> &nbsp;
 </div>
@@ -73,8 +72,8 @@ critix-backend/
 ### 1️⃣ Clonar o Repositório
 
 ```bash
-git clone https://github.com/wallacemt/critix-backend.git
-cd critix-backend
+git clone https://github.com/wallacemt/squad-17-backend.git
+cd squad-17-backend
 ```
 
 ### 2️⃣ Configurar o Banco de Dados
@@ -96,7 +95,7 @@ Se preferir rodar manualmente, configure as credenciais no `application.properti
 Ou, se estiver usando Java diretamente:
 
 ```bash
-java -jar target/critix-backend.jar
+java -jar target/squad-17-backend.jar
 ```
 
 
