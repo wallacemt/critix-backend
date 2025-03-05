@@ -225,12 +225,13 @@ public class ReviewController {
     }
 
 
-    @GetMapping("/media/{mediaId}/notaGeral")
+    @GetMapping("/media/{mediaId}/{mediaType}/notaGeral")
     public ResponseEntity<Map<String, Object>> getAverageRating(
-            @PathVariable Long mediaId
+            @PathVariable Long mediaId,
+            @PathVariable MediaType mediaType
     ) {
         try {
-            Map<String, Object> resultado = reviewService.calcularNotaGeral(mediaId);
+            Map<String, Object> resultado = reviewService.calcularNotaGeral(mediaId, mediaType);
             return ResponseEntity.ok(resultado);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

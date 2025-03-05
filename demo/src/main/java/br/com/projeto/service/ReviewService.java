@@ -45,6 +45,7 @@ public class ReviewService {
         for (Review review : reviewsPage.getContent()) {
             int comentarioCount = commentRepository.countByReview(review);
             review.setComentarios(comentarioCount);
+            updateLikeDislikeCount(review);
             reviewRepository.save(review);
         }
         // Converter cada review em ReviewDTO
@@ -61,6 +62,7 @@ public class ReviewService {
     public ReviewDTO getById(Usuario usuario, Long id) {
         Review review = reviewRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Reviews não encontrada."));
         review.setComentarios(commentRepository.countByReview(review));
+        updateLikeDislikeCount(review);
         reviewRepository.save(review);
         return convertToDTO(review, usuario);
     }
@@ -76,6 +78,7 @@ public class ReviewService {
         for (Review review : reviewsPage.getContent()) {
             int comentarioCount = commentRepository.countByReview(review);
             review.setComentarios(comentarioCount);
+            updateLikeDislikeCount(review);
             reviewRepository.save(review);
         }
         // Converte cada review em ReviewDTO
@@ -93,6 +96,7 @@ public class ReviewService {
         for (Review review : reviewsPage.getContent()) {
             int comentarioCount = commentRepository.countByReview(review);
             review.setComentarios(comentarioCount);
+            updateLikeDislikeCount(review);
             reviewRepository.save(review);
         }
 
@@ -110,6 +114,11 @@ public class ReviewService {
         try {
             // Busca as avaliações dos usuários que o usuário autenticado segue com no máximo de 20 avaliações
             Page<Review> reviews = reviewRepository.findReviewsByFollowedUsers(usuario.getId(), pageable);
+
+            for (Review review: reviews.getContent()){
+                updateLikeDislikeCount(review);
+                reviewRepository.save(review);
+            }
 
             List<ReviewDTO> reviewDTOS = reviews.stream()
                     .map(ReviewDTO::new)// Converte Review para ReviewDTO
@@ -302,8 +311,8 @@ public class ReviewService {
         review.setDeslikes((int) dislikeCount);
     }
 
-    public Map<String, Object> calcularNotaGeral(Long mediaId) {
-        List<Review> reviews = reviewRepository.findByMediaId(mediaId);
+    public Map<String, Object> calcularNotaGeral(Long mediaId, MediaType mediaType) {
+        List<Review> reviews = reviewRepository.findByMediaIdAndMediaType(mediaId, mediaType);
 
         int notaGeral = -1;
         int totalReviews = reviews.size();

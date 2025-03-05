@@ -79,7 +79,7 @@ public class AuthenticationService {
             String senhaTemp = "temp_password_" + email;
             String encryptedPassword = passwordEncoder.encode(senhaTemp);
 
-            Usuario newUser = new Usuario(null, nome, email, encryptedPassword, null, null, 0, 0, 0);
+            Usuario newUser = new Usuario(null, nome, email, encryptedPassword, "http://res.cloudinary.com/dg9hqvlas/image/upload/v1736533469/1_-_zBr1CQ3_gxvqyg.png", null, 0, 0, 0);
             usuarioRepository.save(newUser);
 
             //Gera o token para o novo usuario
@@ -139,7 +139,7 @@ public class AuthenticationService {
                 data.nome(),
                 data.email(),
                 encryptedSenha,
-                null,
+                "http://res.cloudinary.com/dg9hqvlas/image/upload/v1736533469/1_-_zBr1CQ3_gxvqyg.png",
                 null,
                 0, // reviews
                 0, // followers
