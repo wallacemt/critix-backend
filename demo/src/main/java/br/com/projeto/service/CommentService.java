@@ -87,9 +87,9 @@ public class CommentService {
         }
     }
 
-    public Long getUserByReviewId(Long reviewId) {
+    public Usuario getUserByReviewId(Long reviewId) {
         Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado!"));
-        return review.getUsuario().getId();
+        return review.getUsuario();
     }
 
     private CommentDTO convertToDTO(Comment comment, Usuario usuario) {

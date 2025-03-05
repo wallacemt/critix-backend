@@ -1,5 +1,6 @@
 package br.com.projeto.controle;
 
+import br.com.projeto.dto.NotificationRequestDTO;
 import br.com.projeto.models.notifications.Notification;
 import br.com.projeto.models.usuario.Usuario;
 import br.com.projeto.service.NotificationService;
@@ -18,7 +19,7 @@ public class NotificationRestController {
     private NotificationService notificationService;
 
     @GetMapping
-    public ResponseEntity<Page<Notification>> getNotifications(
+    public ResponseEntity<Page<NotificationRequestDTO>> getNotifications(
             @AuthenticationPrincipal Usuario usuario,
             Pageable pageable
     ){

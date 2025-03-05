@@ -7,6 +7,7 @@ import br.com.projeto.models.notifications.NotificationType;
 import br.com.projeto.models.review.LikeType;
 import br.com.projeto.models.review.Review;
 import br.com.projeto.models.watchlist.MediaType;
+import br.com.projeto.repositorio.UsuarioRepository;
 import br.com.projeto.service.NotificationService;
 import br.com.projeto.service.ReviewService;
 import br.com.projeto.models.usuario.Usuario;
@@ -38,6 +39,8 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
     @Autowired
     private NotificationService notificationService;
 
@@ -148,11 +151,13 @@ public class ReviewController {
 
             // Envia uma notificação para o autor da review
             String message = "👍 " + usuario.getNome() + " curtiu sua review";
+            Usuario destination = usuarioRepository.findById(reviewDTO.getUserId()).orElseThrow();
+
             notificationService.sendNotification(
-                    reviewDTO.getUserId(),
+                    destination,
                     usuario.getImagePath(),
                     usuario.getNome(),
-                    usuario.getId(),
+                    usuario,
                     message,
                     id.toString(),
                     NotificationType.like

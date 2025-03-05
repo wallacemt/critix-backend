@@ -2,6 +2,7 @@ package br.com.projeto.repositorio;
 
 import br.com.projeto.models.notifications.Notification;
 import br.com.projeto.models.notifications.NotificationType;
+import br.com.projeto.models.usuario.Usuario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,12 +12,12 @@ import java.util.Optional;
 
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
-    Page<Notification> findByUserIdOrderByCreatedAtDesc(Long userId, Pageable pageable);
+    Page<Notification> findByDestinationOrderByCreatedAtDesc(Usuario destination, Pageable pageable);
 
     // Busca uma notificação com os mesmos dados, exceto o createdAt
-    Optional<Notification> findByUserIdAndRemetenteIdAndRemetenteImageAndRemetenteNameAndMessageAndReferenceAndType(
-            Long userId,
-            Long remetenteId,
+    Optional<Notification> findByDestinationAndRemetenteAndRemetenteImageAndRemetenteNameAndMessageAndReferenceAndType(
+            Usuario destination,
+            Usuario remetente,
             String remetenteImage,
             String remetenteName,
             String message,

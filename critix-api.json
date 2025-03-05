@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "7ac27be8-5c45-4f2f-b263-86a974b91a76",
 		"name": "CRITIX",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "34540840"
 	},
 	"item": [
@@ -55,20 +55,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "https://api.themoviedb.org/3/tv/popular",
-							"protocol": "https",
-							"host": [
-								"api",
-								"themoviedb",
-								"org"
-							],
-							"path": [
-								"3",
-								"tv",
-								"popular"
-							]
-						}
+						"url": "https://api.themoviedb.org/3/tv/popular"
 					},
 					"response": []
 				},
@@ -151,15 +138,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "{{$local}}/auth",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"auth"
-							]
-						}
+						"url": "{{$local}}/auth"
 					},
 					"response": []
 				},
@@ -177,22 +156,16 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "{{$local}}/auth/register",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"auth",
-								"register"
-							]
-						}
+						"url": "{{$local}}/auth/register"
 					},
 					"response": []
 				},
 				{
 					"name": "auth/login",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -204,16 +177,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "{{$local}}/auth/login",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"auth",
-								"login"
-							]
-						}
+						"url": "{{$local}}/auth/login"
 					},
 					"response": []
 				},
@@ -229,9 +193,9 @@
 							}
 						],
 						"url": {
-							"raw": "{{$local}}}/auth/recover?login=layefi2592@eluxeer.com",
+							"raw": "{{$local}}/auth/recover?login=joaoUser0@gmail.com",
 							"host": [
-								"{{$local}}}"
+								"{{$local}}"
 							],
 							"path": [
 								"auth",
@@ -240,7 +204,7 @@
 							"query": [
 								{
 									"key": "login",
-									"value": "layefi2592@eluxeer.com"
+									"value": "joaoUser0@gmail.com"
 								}
 							]
 						}
@@ -254,23 +218,14 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \r\n  \"email\": \"layefi2592@eluxeer.com\",\r\n  \"codigo\": \"558034\",\r\n  \"senha\": \"senha1234\",\r\n  \"confirmacaoSenha\": \"senha1234\"\r\n}\r\n ",
+							"raw": "{   \r\n  \"email\": \"joaoUser0@gmail.com\",\r\n  \"codigo\": \"100208\",\r\n  \"senha\": \"senha@1234\",\r\n  \"confirmacaoSenha\": \"senha@1234\"\r\n}\r\n ",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "{{$local}}/auth/reset",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"auth",
-								"reset"
-							]
-						}
+						"url": "{{$local}}/auth/reset"
 					},
 					"response": []
 				},
@@ -291,16 +246,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "{{$local}}/auth/google",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"auth",
-								"google"
-							]
-						}
+						"url": "{{$local}}/auth/google"
 					},
 					"response": []
 				},
@@ -314,51 +260,88 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3MzkzODk0MzR9.HbiRQwLGKLoRhmVElXBWTkEeL44hlj8AxVv0hFEEX3M\"\r\n}",
+							"raw": "{\r\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDE0NTAxMTd9.j1uly6u5-LOZLigFT99YaLmIuIXq8CE7BcTFLpslo3c\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "{{$local}}/auth/refresh-token",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"auth",
-								"refresh-token"
-							]
-						}
+						"url": "{{$local}}/auth/refresh-token"
 					},
 					"response": []
 				}
 			]
 		},
 		{
-			"name": "Auth Routes",
+			"name": "User Routes",
 			"item": [
 				{
 					"name": "GetUserInfo",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoidmlkb2s2MzI3NEBhcGtsYW1wLmNvbSIsImV4cCI6MTc0MTIxMDc5Nn0.dx2gNe7uKdRF8QH0tzl2QEmtVIbJTY0OpdF7Ov5U1GA"
+							}
+						},
 						"method": "GET",
 						"header": [
 							{
-								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoic2l0ZXdlMjQwM0BoYWxib3YuY29tIiwiZXhwIjoxNzM3NjY3NTk1fQ.M2RjwX3A8760jxMsNPz1JnDi8KUKjTNqocZMW7_ck3k",
+								"key": "",
+								"value": "",
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{$local}}/user",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"user"
-							]
-						}
+						"url": "{{$local}}/user"
+					},
+					"response": []
+				},
+				{
+					"name": "EditUserInfo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoieGF4b3M0OTA1NEBhcmludXNlLmNvIiwiZXhwIjoxNzQxMTM0MDIxfQ.RwDHxyF29pgr4FGzLe8Ct7feKLbb2OVDjxnZsqPe3TE"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Heitor Silva\",\r\n    \"senha\": {\r\n        \"senha\": \"novaSenha123\",\r\n        \"confirmacaoSenha\": \"novaSenha123\"\r\n    },\r\n    \"email\": \"xaxos49054@arinuse.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{$local}}/user/profile"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoidmlkb2s2MzI3NEBhcGtsYW1wLmNvbSIsImV4cCI6MTc0MTIxMDc5Nn0.dx2gNe7uKdRF8QH0tzl2QEmtVIbJTY0OpdF7Ov5U1GA"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"viDA4@\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{$local}}/user"
 					},
 					"response": []
 				},
@@ -382,16 +365,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "{{$local}}/user/profile-image",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"user",
-								"profile-image"
-							]
-						}
+						"url": "{{$local}}/user/profile-image"
 					},
 					"response": []
 				},
@@ -415,16 +389,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "{{$local}}/user/profile-banner",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"user",
-								"profile-banner"
-							]
-						}
+						"url": "{{$local}}/user/profile-banner"
 					},
 					"response": []
 				},
@@ -433,26 +398,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk4NDQ4NTJ9.ZBB5EeCIeHC8Ytz2JutAhQLRF4mRKmAzQETTeuPExvU",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDEwNDcxMDV9.gTgtGy2CVrBRixD4HIg6Nf_zHO61BHA4JfYIDEUmjVY"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "{{$local}}/user/4",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"user",
-								"4"
-							]
-						}
+						"url": "{{$local}}/user/8"
 					},
 					"response": []
 				},
@@ -461,13 +413,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk1NzI3MjR9.bPboqebsoAijrV6RXY_XQk7A3Q6yBeCFY_TaErFVJMg",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk1NzI3MjR9.bPboqebsoAijrV6RXY_XQk7A3Q6yBeCFY_TaErFVJMg"
+							}
 						},
 						"method": "GET",
 						"header": [
@@ -504,18 +452,10 @@
 					"request": {
 						"auth": {
 							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "LJ6O8zdf26QSiFQmi__QbAB1Wtg",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "854653142524151",
-									"type": "string"
-								}
-							]
+							"basic": {
+								"password": "LJ6O8zdf26QSiFQmi__QbAB1Wtg",
+								"username": "854653142524151"
+							}
 						},
 						"method": "GET",
 						"header": [
@@ -535,21 +475,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "https://api.cloudinary.com/v1_1/dg9hqvlas/resources/search",
-							"protocol": "https",
-							"host": [
-								"api",
-								"cloudinary",
-								"com"
-							],
-							"path": [
-								"v1_1",
-								"dg9hqvlas",
-								"resources",
-								"search"
-							]
-						}
+						"url": "https://api.cloudinary.com/v1_1/dg9hqvlas/resources/search"
 					},
 					"response": []
 				},
@@ -561,18 +487,10 @@
 					"request": {
 						"auth": {
 							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "LJ6O8zdf26QSiFQmi__QbAB1Wtg",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "854653142524151",
-									"type": "string"
-								}
-							]
+							"basic": {
+								"password": "LJ6O8zdf26QSiFQmi__QbAB1Wtg",
+								"username": "854653142524151"
+							}
 						},
 						"method": "GET",
 						"header": [
@@ -592,21 +510,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "https://api.cloudinary.com/v1_1/dg9hqvlas/resources/search",
-							"protocol": "https",
-							"host": [
-								"api",
-								"cloudinary",
-								"com"
-							],
-							"path": [
-								"v1_1",
-								"dg9hqvlas",
-								"resources",
-								"search"
-							]
-						}
+						"url": "https://api.cloudinary.com/v1_1/dg9hqvlas/resources/search"
 					},
 					"response": []
 				}
@@ -721,16 +625,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{$local}}/watchlist/pendente",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"watchlist",
-								"pendente"
-							]
-						}
+						"url": "{{$local}}/watchlist/pendente"
 					},
 					"response": []
 				},
@@ -754,15 +649,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "{{$local}}/watchlist",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"watchlist"
-							]
-						},
+						"url": "{{$local}}/watchlist",
 						"description": "Adiciona uma midia na watchlist."
 					},
 					"response": []
@@ -787,16 +674,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "{{$local}}/watchlist/37",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"watchlist",
-								"37"
-							]
-						},
+						"url": "{{$local}}/watchlist/37",
 						"description": "Atualiza o status de uma whatchlist pelo id."
 					},
 					"response": []
@@ -812,17 +690,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{$local}}/watchlist/movie/95557",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"watchlist",
-								"movie",
-								"95557"
-							]
-						},
+						"url": "{{$local}}/watchlist/movie/95557",
 						"description": "Deleta uma uma media da Watchlist."
 					},
 					"response": []
@@ -838,18 +706,106 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "{{$local}}/watchlist/tv/127532",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"watchlist",
-								"tv",
-								"127532"
-							]
-						},
+						"url": "{{$local}}/watchlist/tv/127532",
 						"description": "Verifica se uma media especifica esta na watchlist."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "/comments/review/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDA2MDQyNzl9.coBvVeSzNvlIon_leTrxXQl2QCKGeFd_h8b51BV6fx8"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{$local}}/comments/review/18"
+					},
+					"response": []
+				},
+				{
+					"name": "/comments/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDA1MTU0NDR9.5r9JhPma276gEgIY0ArHumIF08kj1xC9E30eOsIe_sc"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{$local}}/comments/7"
+					},
+					"response": []
+				},
+				{
+					"name": "/comments/review/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDA1MTU0NDR9.5r9JhPma276gEgIY0ArHumIF08kj1xC9E30eOsIe_sc"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\":  \"Muito Bom esse Ponto de Vista!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{$local}}/comments/review/15"
+					},
+					"response": []
+				},
+				{
+					"name": "/comments/review/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDA1MTU0NDR9.5r9JhPma276gEgIY0ArHumIF08kj1xC9E30eOsIe_sc"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\":  \"Muito Bom esse Ponto de Vista! Mas poderia ter sido melhor\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{$local}}/comments/7"
+					},
+					"response": []
+				},
+				{
+					"name": "/comments/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDA1MTU0NDR9.5r9JhPma276gEgIY0ArHumIF08kj1xC9E30eOsIe_sc"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "{{$local}}/comments/6"
 					},
 					"response": []
 				}
@@ -863,25 +819,29 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk5OTg4MzJ9.0AFIDA_xVJ24ykXkAWcedS0i4MXt1JUtFWm7bIhntzs",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDA1MjcwNTV9.ShpSctjVgE1LQC6KArbdLEY6IYRw3MfOTygqhdk9cqk"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "{{$local}}/reviews",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"reviews"
-							]
+						"url": "{{$local}}/reviews",
+						"description": "Pega as reviews do usuario autenticado."
+					},
+					"response": []
+				},
+				{
+					"name": "/reviews/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDA2MDQyNzl9.coBvVeSzNvlIon_leTrxXQl2QCKGeFd_h8b51BV6fx8"
+							}
 						},
+						"method": "GET",
+						"header": [],
+						"url": "{{$local}}/reviews/18",
 						"description": "Pega as reviews do usuario autenticado."
 					},
 					"response": []
@@ -891,87 +851,30 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk5OTg4MzJ9.0AFIDA_xVJ24ykXkAWcedS0i4MXt1JUtFWm7bIhntzs",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDA2MTg5OTV9.azlVMdzgroNuXbC7ifU9M9lsBiKTG4vcVdsrAwAnOZc"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "{{$local}}/reviews/user/1",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"reviews",
-								"user",
-								"1"
-							]
-						},
+						"url": "{{$local}}/reviews/user/8",
 						"description": "Pega as reviews de um usuario especifico pelo id."
 					},
 					"response": []
 				},
 				{
-					"name": "/reviews/media/:id",
+					"name": "/reviews/media/:type/:id",
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk5OTg4MzJ9.0AFIDA_xVJ24ykXkAWcedS0i4MXt1JUtFWm7bIhntzs",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDAwOTg4MDZ9.BG8TIwXtEbe3n4n4e54CrviYbzR-pCYykP2oCyBepAo"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "{{$local}}/reviews/media/93405",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"reviews",
-								"media",
-								"93405"
-							]
-						},
+						"url": "{{$local}}/reviews/media/tv/138503",
 						"description": "Pega todas as reviews de uma media especifica."
-					},
-					"response": []
-				},
-				{
-					"name": "/reviews/:id",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk5OTg4MzJ9.0AFIDA_xVJ24ykXkAWcedS0i4MXt1JUtFWm7bIhntzs",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{$local}}/reviews/6",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"reviews",
-								"6"
-							]
-						},
-						"description": "Deleta uma review do usuario autenticado peo id."
 					},
 					"response": []
 				},
@@ -980,34 +883,22 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk5OTg4MzJ9.0AFIDA_xVJ24ykXkAWcedS0i4MXt1JUtFWm7bIhntzs",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDAxNzg0OTh9.0eKXB758Jjt9OxmLDPnFZJvzPt9YKu3O1XU3ipVOzcw"
+							}
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"content\":\"Muito bom essa seria, achei bastante interessante o desenvolvimento dos personagens.\",\r\n    \"mediaId\": 125988,\r\n    \"mediaType\": \"tv\",\r\n    \"nota\": 5,\r\n    \"containsSpoiler\": false\r\n}",
+							"raw": "{\r\n    \"content\":\"Teste\",\r\n    \"mediaId\": 216082,\r\n    \"mediaType\": \"tv\",\r\n    \"nota\": 5,\r\n    \"containsSpoiler\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "{{$local}}/reviews",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"reviews"
-							]
-						},
+						"url": "{{$local}}/reviews",
 						"description": "Adiciona uma nova review do usuario autenticado."
 					},
 					"response": []
@@ -1017,13 +908,9 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk5OTg4MzJ9.0AFIDA_xVJ24ykXkAWcedS0i4MXt1JUtFWm7bIhntzs",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDA0Mjg4MDV9.x-Opi-52yNJVHJg74kEkwY0yC2RrmN8WWGa_hnAVzno"
+							}
 						},
 						"method": "PATCH",
 						"header": [],
@@ -1036,17 +923,24 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "{{$local}}/reviews/7",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"reviews",
-								"7"
-							]
-						},
+						"url": "{{$local}}/reviews/7",
 						"description": "Faz atualização parcial de uma review do usuario autenticado."
+					},
+					"response": []
+				},
+				{
+					"name": "/reviews/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDAxNzg0OTh9.0eKXB758Jjt9OxmLDPnFZJvzPt9YKu3O1XU3ipVOzcw"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "{{$local}}/reviews/14",
+						"description": "Deleta uma review do usuario autenticado peo id."
 					},
 					"response": []
 				},
@@ -1055,34 +949,22 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk5OTg4MzJ9.0AFIDA_xVJ24ykXkAWcedS0i4MXt1JUtFWm7bIhntzs",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDAwODIxMTR9.YUfbUIRknFFdfE3heWTCHacdQPWBtEpH6aRhV0yi764"
+							}
 						},
-						"method": "POST",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"content\":\"Muito bom essa seria, achei bastante interessante o desenvolvimento dos personagens.\",\r\n    \"mediaId\": 125988,\r\n    \"mediaType\": \"tv\",\r\n    \"nota\": 5,\r\n    \"containsSpoiler\": false\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "{{$local}}/reviews",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"reviews"
-							]
-						},
+						"url": "{{$local}}/reviews/1/like",
 						"description": "Adiciona um like a uma review."
 					},
 					"response": []
@@ -1092,35 +974,259 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3Mzk5OTg4MzJ9.0AFIDA_xVJ24ykXkAWcedS0i4MXt1JUtFWm7bIhntzs",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDAwODIxMTR9.YUfbUIRknFFdfE3heWTCHacdQPWBtEpH6aRhV0yi764"
+							}
 						},
-						"method": "POST",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"content\":\"Muito bom essa seria, achei bastante interessante o desenvolvimento dos personagens.\",\r\n    \"mediaId\": 125988,\r\n    \"mediaType\": \"tv\",\r\n    \"nota\": 5,\r\n    \"containsSpoiler\": false\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "{{$local}}/reviews",
-							"host": [
-								"{{$local}}"
-							],
-							"path": [
-								"reviews"
-							]
-						},
+						"url": "{{$local}}/reviews/1/dislike",
 						"description": "Adiciona um dislike a uma review."
+					},
+					"response": []
+				},
+				{
+					"name": "/reviews/:id/:interacion",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDA2ODMxMDV9.T5M0Ym0cKRR71YkOE17m94Vs-kn0ezT2getbSPrihLs"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{$local}}/reviews/19/like",
+						"description": "Adiciona um dislike a uma review."
+					},
+					"response": []
+				},
+				{
+					"name": "/reviews/:id/:type/users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDA3MDEzNjZ9.zpqtLbzz2ycoApiRMpGnVGunDRi0Kce0GFTUKJrvXnM"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{$local}}/reviews/15/like/users",
+						"description": "Adiciona um dislike a uma review."
+					},
+					"response": []
+				},
+				{
+					"name": "/reviews/following",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDA2MTg5OTV9.azlVMdzgroNuXbC7ifU9M9lsBiKTG4vcVdsrAwAnOZc"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{$local}}/reviews/following"
+					},
+					"response": []
+				},
+				{
+					"name": "/reviews/notaGeral",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDExMTg4MTd9.0PV6V9WYjN1lfcFUJccE__tN-U1r1S96J58-NXv2Agk"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{$local}}/reviews/media/624860/movie/notaGeral"
+					},
+					"response": []
+				},
+				{
+					"name": "/reviews/top",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDEyMDU2MDF9.3EiVjD5PJ3yxjptyviKJ64MqNNIiglBcZK9XNEixjGk"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{$local}}/reviews/top"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Follower",
+			"item": [
+				{
+					"name": "/follow/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDA2OTE3NzV9.CeApEQ9dXYlkQ8y63PpbiGWnLA3lc26JMVxLwKqdcOY"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{$local}}/follow/8",
+						"description": "Pega as reviews do usuario autenticado."
+					},
+					"response": []
+				},
+				{
+					"name": "/follow/:id/followers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDA3MDc2MTl9.7IphcuXWnHCVtC-m0s_Vl600226evPuRtmpcDfY3D7Q"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{$local}}/follow/8/followers",
+						"description": "Pega as reviews do usuario autenticado."
+					},
+					"response": []
+				},
+				{
+					"name": "/follow/:id/followings",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDA2ODkxMDB9.Z-8fLpM6M6V6lXlHUEZttyIjz0p_OBzyuYqr1X1gg-8"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{$local}}/follow/4/followings",
+						"description": "Pega as reviews do usuario autenticado."
+					},
+					"response": []
+				},
+				{
+					"name": "/follow/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDA2ODkxMDB9.Z-8fLpM6M6V6lXlHUEZttyIjz0p_OBzyuYqr1X1gg-8"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"url": "{{$local}}/follow/8",
+						"description": "Pega as reviews do usuario autenticado."
+					},
+					"response": []
+				},
+				{
+					"name": "/follow/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDA2ODkxMDB9.Z-8fLpM6M6V6lXlHUEZttyIjz0p_OBzyuYqr1X1gg-8"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "{{$local}}/follow/8",
+						"description": "Pega as reviews do usuario autenticado."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "user/notifications",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDEyMDc5MTZ9.QOp5M6AsfOu1KowFPLygazblSMzNWhuFhPv7olg9r1E"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{$local}}/user/notifications"
+					},
+					"response": []
+				},
+				{
+					"name": "user/notifications/:id/seen",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDEwNDIxNTl9.C4I-hZhmLP8I8TsnoMfpfFdPjg9Dx4XQ8PM8wuEUiDg"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"url": "{{$local}}/user/notifications/1/seen"
+					},
+					"response": []
+				},
+				{
+					"name": "user/notifications/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgY3JpdGl4LWxvZ2luIiwic3ViIjoid2FsbGFjZXNhbnRhbmFrMEBnbWFpbC5jb20iLCJleHAiOjE3NDEwNDIxNTl9.C4I-hZhmLP8I8TsnoMfpfFdPjg9Dx4XQ8PM8wuEUiDg"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "{{$local}}/user/notifications/5"
 					},
 					"response": []
 				}

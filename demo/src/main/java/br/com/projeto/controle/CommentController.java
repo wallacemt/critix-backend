@@ -75,7 +75,7 @@ public class CommentController {
                 commentService.getUserByReviewId(reviewId),
                 usuario.getImagePath(),
                 usuario.getNome(),
-                usuario.getId(),
+                usuario,
                 message,
                 usuario.getId().toString(),
                 NotificationType.comment

@@ -1,5 +1,6 @@
 package br.com.projeto.models.notifications;
 
+import br.com.projeto.models.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,11 +18,13 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "destination_id")
+    private Usuario destination;
 
-    @Column(nullable = false)
-    private Long remetenteId;
+    @ManyToOne
+    @JoinColumn(name = "remetente_id")
+    private Usuario remetente;
 
     @Column(nullable = false)
     private String remetenteImage;

@@ -2,6 +2,7 @@ package br.com.projeto.models.usuario;
 
 import br.com.projeto.models.comment.Comment;
 import br.com.projeto.models.followers.Follower;
+import br.com.projeto.models.notifications.Notification;
 import br.com.projeto.models.review.Review;
 import br.com.projeto.models.review.ReviewLike;
 import br.com.projeto.models.watchlist.WatchList;
@@ -81,6 +82,7 @@ public class Usuario implements UserDetails {
 
     /**
      * Atualiza o código de recuperação de senha e a data de envio.
+     *
      * @param codigo Código de recuperação gerado
      */
     public void atualizarCodigoRecuperacaoSenha(String codigo) {
@@ -140,4 +142,10 @@ public class Usuario implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WatchList> watchlist;
+
+    @OneToMany(mappedBy = "destination", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Notification> destination;
+
+    @OneToMany(mappedBy = "remetente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Notification> remetente;
 }

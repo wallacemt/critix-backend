@@ -3,6 +3,7 @@ package br.com.projeto.controle;
 import br.com.projeto.dto.UsuarioFollowDTO;
 import br.com.projeto.models.notifications.NotificationType;
 import br.com.projeto.models.usuario.Usuario;
+import br.com.projeto.repositorio.UsuarioRepository;
 import br.com.projeto.service.FollowerService;
 import br.com.projeto.service.NotificationService;
 import jakarta.persistence.EntityNotFoundException;
@@ -25,6 +26,9 @@ import java.util.List;
 public class FollowController {
     @Autowired
     private FollowerService followerService;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
     private NotificationService notificationService;
@@ -71,11 +75,12 @@ public class FollowController {
         try {
             ResponseEntity<String> response = followerService.follow(usuario, id);
             String message = "🎉 " + usuario.getNome() + " começou a te seguir!";
+            Usuario destination =  usuarioRepository.findById(id).orElseThrow();
             notificationService.sendNotification(
-                    id,
+                    destination,
                     usuario.getImagePath(),
                     usuario.getNome(),
-                    usuario.getId(),
+                    usuario,
                     message,
                     usuario.getId().toString(),
                     NotificationType.follow
