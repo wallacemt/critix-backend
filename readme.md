@@ -40,12 +40,14 @@ O backend do **Critix** é responsável por fornecer a API REST que alimenta a p
     <img align='center' height='48' width='48'  title='Postman' alt='Postman' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg' /> &nbsp;
     <img align='center' height='48' width='48'  title='Junit' alt='Junit' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/junit/junit-original-wordmark.svg' /> &nbsp;
     <img align='center' height='48' width='48'  title='Oauth' alt='Oauth' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/oauth/oauth-original.svg' /> &nbsp;
+   <img align='center' height='48' width='48'  title='Maven' alt='mave' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/maven/maven-original.svg' /> &nbsp;
+
 </div>
 
 <span id="estrutura-projeto"></span>
 ## 📂 Estrutura do Projeto
 ```
-critix-backend/
+critix-backend/demo
 │-- src/
 │   ├── main/java/br/com/projeto/
 │   │   ├── config/
@@ -62,6 +64,7 @@ critix-backend/
 │-- test/
 │-- docker-compose.yml
 │-- Dockerfile
+│-- .env
 │-- README.md
 ```
 
@@ -162,7 +165,7 @@ O Critix possui notificações em tempo real via WebSockets. Para consumir:
 ### Diagrama Do Banco:
 
 <div align='center'>
-<img align='center' height='750' width='800' style="border-radius:1.5rem"  title='Junit' alt='Junit' src='https://res.cloudinary.com/dg9hqvlas/image/upload/v1741207924/diagrama_t7o1ic.png' /> &nbsp;
+   <img align='center' height='750' width='800' style="border-radius:1.5rem"  title='Junit' alt='Junit' src='https://res.cloudinary.com/dg9hqvlas/image/upload/v1741207924/diagrama_t7o1ic.png' /> &nbsp;
 </div>
 
 
@@ -199,4 +202,4 @@ Ficou interessado em contribuir? Faça um **fork** do repositório, crie uma **b
 
 ## 📜 Licença
 
-Este projeto está sob a licença MIT.
+`Este projeto está sob a licença MIT.`
