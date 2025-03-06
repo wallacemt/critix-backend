@@ -50,7 +50,7 @@ public class AuthenticationService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
+    // Método para fazer o login com o Google
     public Map<String, String> loginWithGoogle(String idToken) {
         try {
             // Verifica se o token e valido
@@ -79,7 +79,9 @@ public class AuthenticationService {
             String senhaTemp = "temp_password_" + email;
             String encryptedPassword = passwordEncoder.encode(senhaTemp);
 
-            Usuario newUser = new Usuario(null, nome, email, encryptedPassword, "http://res.cloudinary.com/dg9hqvlas/image/upload/v1736533469/1_-_zBr1CQ3_gxvqyg.png", null, 0, 0, 0);
+            String username = generateUniqueUsername(email);
+
+            Usuario newUser = new Usuario(null, nome, email, encryptedPassword, "http://res.cloudinary.com/dg9hqvlas/image/upload/v1736533469/1_-_zBr1CQ3_gxvqyg.png", null, 0, 0, 0,username);
             usuarioRepository.save(newUser);
 
             //Gera o token para o novo usuario
@@ -97,6 +99,22 @@ public class AuthenticationService {
         }
     }
 
+    // Gera um username pelo email para cadastro pelo Google
+    private String generateUniqueUsername(String email) {
+        String baseUsername = email.split("@")[0]; // Obtém a parte antes do "@" do email
+        String username = baseUsername;
+        int counter = 1;
+
+        // Verifica se o username já existe e adiciona um contador se necessário
+        while (usuarioRepository.findByUsernameUser(username).isPresent()) {
+            username = baseUsername + counter;
+            counter++;
+        }
+
+        return username;
+    }
+
+    // Método de Login no site passando login e senha
     public LoginResponseDTO login(AutheticationDTO data) throws InvalidCredentialsException {
         try {
             // Tentativa de autenticação com as credenciais fornecidas
@@ -119,6 +137,7 @@ public class AuthenticationService {
         }
     }
 
+    // Registro de um nove usuário
     public Map<String, String> register(RegisterDTO data) {
         // Verifica se o email já existe no banco de dados
         if (this.usuarioRepository.findByEmail(data.email()).isPresent()) {
@@ -133,6 +152,9 @@ public class AuthenticationService {
         // Criptografa a senha antes de salvar no banco
         String encryptedSenha = passwordEncoder.encode(data.senha());
 
+        //Gera um username único com base no nome
+        String username = generateUniqueUsernameFromName(data.nome());
+
         // Cria um novo usuário com os dados fornecidos
         Usuario newUsuario = new Usuario(
                 null,
@@ -143,7 +165,8 @@ public class AuthenticationService {
                 null,
                 0, // reviews
                 0, // followers
-                0  // followings
+                0,  // followings
+                username // username do usuário criado
         );
 
         // Salva o novo usuário no banco de dados
@@ -159,6 +182,32 @@ public class AuthenticationService {
         return response;
     }
 
+    // Gera um username pelo nome registrado do usuário pelo site
+    private String generateUniqueUsernameFromName(String nome){
+        //Remove caracteres especiais e espaços do nome
+        String baseUsername = nome.replaceAll("[^a-zA-Z0-9._]","");
+
+        //Converte para minúsculas
+        baseUsername = baseUsername.toLowerCase();
+
+        //Se o nome estiver vazio após a limpeza, gera um username padrão
+        if (baseUsername.isEmpty()){
+            baseUsername = "user";
+        }
+
+        String username = baseUsername;
+        int counter = 1;
+
+        //Verifica se o username já existe e adiciona um contador se necessário
+        while (usuarioRepository.findByUsernameUser(username).isPresent()){
+            username = baseUsername + counter;
+            counter++;
+        }
+
+        return username;
+    }
+
+    // Recuperação de senha
     public Map<String, String> recover(String email) {
         if (this.usuarioRepository.findByEmail(email).isEmpty()) {
             return new HashMap<String, String>() {{

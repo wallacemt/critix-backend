@@ -67,7 +67,10 @@ public class Usuario implements UserDetails {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataEnvioCodigo;
 
-    public Usuario(Long id, String nome, String email, String senha, String imagePath, String bannerPath, int reviews, int followers, int followings) {
+    @Column(name = "username_user",unique = true,nullable = false)
+    private String usernameUser;
+
+    public Usuario(Long id, String nome, String email, String senha, String imagePath, String bannerPath, int reviews, int followers, int followings,String usernameUser) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -78,6 +81,7 @@ public class Usuario implements UserDetails {
         this.reviews = reviews;
         this.followers = followers;
         this.followings = followings;
+        this.usernameUser = usernameUser;
     }
 
     /**
