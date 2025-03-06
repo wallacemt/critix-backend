@@ -349,6 +349,7 @@ public class ReviewService {
         return new ReviewDTO(
                 review.getId(),
                 review.getUsuario().getId(),
+                review.getUsuario().getUsernameUser(),
                 review.getMediaId(),
                 review.getMediaType(),
                 review.getNota(),
