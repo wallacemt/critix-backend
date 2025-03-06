@@ -14,6 +14,7 @@ public class UsuarioDTO {
     private String email;
     private String imagePath;
     private String bannerPath;
+    private String username;
     private int reviews;
     private int followers;
     private int followings;
@@ -26,6 +27,7 @@ public class UsuarioDTO {
         this.email = ocultaEmail ? null : entity.getEmail();
         this.imagePath = entity.getImagePath();
         this.bannerPath = entity.getBannerPath();
+        this.username = entity.getUsernameUser();
         this.reviews = entity.getReviews();
         this.followers = entity.getFollowers();
         this.followings = entity.getFollowings();

@@ -28,8 +28,8 @@ public class FollowerService {
     UsuarioRepository usuarioRepository;
 
 
-    public Page<UsuarioFollowDTO> getFollowing(Long followerId, Pageable pageable, Usuario usuario) {
-        Usuario follower = usuarioRepository.findById(followerId)
+    public Page<UsuarioFollowDTO> getFollowing(String usernameFollower, Pageable pageable, Usuario usuario) {
+        Usuario follower = usuarioRepository.findByUsernameUser(usernameFollower)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
 
         Page<Follower> followersPage = followerRepository.findByFollower(follower, pageable);
@@ -41,8 +41,8 @@ public class FollowerService {
         return new PageImpl<>(followingDTOs, pageable, followersPage.getTotalElements());
     }
 
-    public Page<UsuarioFollowDTO> getFollowers(Long userId, Pageable pageable, Usuario follow) {
-        Usuario usuario = usuarioRepository.findById(userId)
+    public Page<UsuarioFollowDTO> getFollowers(String username, Pageable pageable, Usuario follow) {
+        Usuario usuario = usuarioRepository.findByUsernameUser(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
 
         Page<Follower> followersPage = followerRepository.findByFollowing(usuario, pageable);
@@ -55,19 +55,19 @@ public class FollowerService {
     }
 
 
-    public boolean getIsFollow(Long id, Usuario usuario) {
-        Usuario following = usuarioRepository.findById(id)
+    public boolean getIsFollow(String username, Usuario usuario) {
+        Usuario following = usuarioRepository.findByUsernameUser(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
 
         return followerRepository.findByFollowerAndFollowing(usuario, following).isPresent();
     }
 
-    public ResponseEntity<String> follow(Usuario follower, Long followingId) {
-        if (follower.getId().equals(followingId)) {
+    public ResponseEntity<String> follow(Usuario follower, String usernameFollowing) {
+        if (follower.getUsernameUser().equals(usernameFollowing)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Você não pode seguir a si mesmo.");
         }
 
-        Usuario following = usuarioRepository.findById(followingId)
+        Usuario following = usuarioRepository.findByUsernameUser(usernameFollowing)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
 
         Optional<Follower> existingFollower = followerRepository.findByFollowerAndFollowing(follower, following);
@@ -90,8 +90,8 @@ public class FollowerService {
         return ResponseEntity.ok("Usuário seguido com sucesso!");
     }
 
-    public ResponseEntity<String> unfollow(Usuario follower, Long followingId) {
-        Usuario following = usuarioRepository.findById(followingId)
+    public ResponseEntity<String> unfollow(Usuario follower, String usernameFollowing) {
+        Usuario following = usuarioRepository.findByUsernameUser(usernameFollowing)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
 
         Optional<Follower> existingFollower = followerRepository.findByFollowerAndFollowing(follower, following);
@@ -116,10 +116,11 @@ public class FollowerService {
     }
 
 
-    private UsuarioFollowDTO convertToDTO(Usuario usuario, Usuario follow ) {
+    private UsuarioFollowDTO convertToDTO(Usuario usuario, Usuario follow) {
         return new UsuarioFollowDTO(
                 usuario.getId(),
                 usuario.getNome(),
+                usuario.getUsernameUser(),
                 usuario.getImagePath(),
                 usuario.equals(follow)
         );

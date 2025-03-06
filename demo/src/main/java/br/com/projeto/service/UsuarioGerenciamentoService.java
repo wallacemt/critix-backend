@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import org.apache.http.auth.InvalidCredentialsException;
 import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -122,10 +123,10 @@ public class UsuarioGerenciamentoService {
     }
 
     // Retorna as informações do usuário pelo ID
-    public UsuarioDTO getUserById(Long id, Usuario usuario) {
-        Optional<Usuario> usuarioEntity = usuarioRepository.findById(id);
+    public UsuarioDTO getUserById(String username, Usuario usuario) {
+        Optional<Usuario> usuarioEntity = usuarioRepository.findByUsernameUser(username);
         if (usuarioEntity.isEmpty()) {
-            throw new UsernameNotFoundException("Usuário não encontrado para o ID: " + id);
+            throw new UsernameNotFoundException("Usuário não encontrado para o username: " + username);
         }
         Usuario usuarioEncontrado = usuarioEntity.get();
         usuarioEncontrado.setFollowings(followerRepository.countFollowing(usuarioEncontrado.getId()));
@@ -145,8 +146,6 @@ public class UsuarioGerenciamentoService {
     public UserEditResponseDTO editUserInfo(Map<String, Object> updates, Usuario usuario) {
         boolean hasChanges = false;
         boolean requiresReauthentication = false;
-        String newEmail = usuario.getEmail();
-        String newPassword = usuario.getPassword();
 
         for (Map.Entry<String, Object> entry : updates.entrySet()) {
             String campo = entry.getKey();
@@ -156,6 +155,17 @@ public class UsuarioGerenciamentoService {
                     String novoNome = (String) valor;
                     if (!novoNome.equals(usuario.getNome()) && validName(novoNome)) {
                         usuario.setNome(novoNome);
+                        hasChanges = true;
+                    }
+                    break;
+                case "username":
+                    String novoUsername = (String) valor;
+                    Optional<Usuario> userFind = usuarioRepository.findByUsernameUser(novoUsername);
+                    if(userFind.isPresent() && !usuario.getUsernameUser().equals(novoUsername)){
+                        throw new DuplicateKeyException("Username já em uso");
+                    }
+                    if (!novoUsername.equals(usuario.getUsernameUser()) && validName(novoUsername)) {
+                        usuario.setUsernameUser(novoUsername);
                         hasChanges = true;
                     }
                     break;
@@ -193,7 +203,7 @@ public class UsuarioGerenciamentoService {
         String acessToken = tokenService.generateToken(usuario);
         String refreshToken = tokenService.generateRefreshToken(usuario);
 
-        return new UserEditResponseDTO(usuario.getId(), usuario.getNome(), usuario.getUsername(), acessToken, refreshToken);
+        return new UserEditResponseDTO(usuario.getId(), usuario.getNome(), usuario.getUsernameUser(), usuario.getUsername(), acessToken, refreshToken);
     }
 
     private boolean validName(String nome) {

@@ -14,6 +14,7 @@ import java.util.List;
 public class ReviewDTO {
     private Long id;
     private Long userId;
+    private String username;
     private Long mediaId;
     private MediaType mediaType;
     private Integer nota;
@@ -29,6 +30,7 @@ public class ReviewDTO {
     public ReviewDTO(Review review) {
         this.id = review.getId();
         this.userId = review.getUsuario().getId();
+        this.username = review.getUsuario().getUsernameUser();
         this.mediaId = review.getMediaId();
         this.mediaType = review.getMediaType();
         this.nota = review.getNota();

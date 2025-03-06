@@ -12,6 +12,7 @@ import lombok.Setter;
 public class UserLikeDTO {
     private Long id;
     private String nome;
+    private String username;
     private String image;
     private boolean isUser;
 }

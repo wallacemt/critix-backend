@@ -3,6 +3,7 @@ package br.com.projeto.service;
 
 import br.com.projeto.dto.ReviewDTO;
 import br.com.projeto.dto.UserLikeDTO;
+import br.com.projeto.models.notifications.NotificationType;
 import br.com.projeto.models.review.LikeType;
 import br.com.projeto.models.review.Review;
 import br.com.projeto.models.review.ReviewLike;
@@ -32,6 +33,9 @@ public class ReviewService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Autowired
     private CommentRepository commentRepository;
@@ -67,8 +71,9 @@ public class ReviewService {
         return convertToDTO(review, usuario);
     }
 
-    public Page<ReviewDTO> getReviewsByUserId(Long userId, Usuario usuario, Pageable pageable) {
-        Usuario usuarioEntity = usuarioRepository.findById(userId)
+    public Page<ReviewDTO> getReviewsByUserId(String username, Usuario usuario, Pageable pageable) {
+
+        Usuario usuarioEntity = usuarioRepository.findByUsernameUser(username)
                 .orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado!"));
 
 
@@ -115,7 +120,7 @@ public class ReviewService {
             // Busca as avaliações dos usuários que o usuário autenticado segue com no máximo de 20 avaliações
             Page<Review> reviews = reviewRepository.findReviewsByFollowedUsers(usuario.getId(), pageable);
 
-            for (Review review: reviews.getContent()){
+            for (Review review : reviews.getContent()) {
                 updateLikeDislikeCount(review);
                 reviewRepository.save(review);
             }
@@ -143,6 +148,7 @@ public class ReviewService {
                 .map(reviewLike -> new UserLikeDTO(
                         reviewLike.getUsuario().getId(),
                         reviewLike.getUsuario().getNome(),
+                        reviewLike.getUsuario().getUsernameUser(),
                         reviewLike.getUsuario().getImagePath(),
                         reviewLike.getUsuario().equals(usuario)
                 ))
@@ -276,6 +282,19 @@ public class ReviewService {
                 reviewLikeRepository.save(like);
             }
         } else {
+            // Envia uma notificação para o autor da review
+            String message = "👍 " + usuario.getNome() + " curtiu sua review";
+            Usuario destination = usuarioRepository.findById(review.getUsuario().getId()).orElseThrow();
+
+            notificationService.sendNotification(
+                    destination,
+                    usuario.getImagePath(),
+                    usuario.getNome(),
+                    usuario,
+                    message,
+                    id.toString(),
+                    NotificationType.like
+            );
             reviewLikeRepository.save(new ReviewLike(usuario, review, LikeType.like));
         }
 
@@ -349,6 +368,7 @@ public class ReviewService {
         return new ReviewDTO(
                 review.getId(),
                 review.getUsuario().getId(),
+                review.getUsuario().getUsernameUser(),
                 review.getMediaId(),
                 review.getMediaType(),
                 review.getNota(),

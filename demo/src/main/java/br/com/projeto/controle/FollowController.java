@@ -33,10 +33,10 @@ public class FollowController {
     @Autowired
     private NotificationService notificationService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getisFollowing(@PathVariable Long id, @AuthenticationPrincipal Usuario usuario) {
+    @GetMapping("/{username}")
+    public ResponseEntity<?> getisFollowing(@PathVariable String username, @AuthenticationPrincipal Usuario usuario) {
         try {
-            return ResponseEntity.ok(followerService.getIsFollow(id, usuario));
+            return ResponseEntity.ok(followerService.getIsFollow(username, usuario));
         } catch (UsernameNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } catch (Exception e) {
@@ -44,22 +44,22 @@ public class FollowController {
         }
     }
 
-    @GetMapping("/{userId}/followers")
+    @GetMapping("/{username}/followers")
     public ResponseEntity<Page<UsuarioFollowDTO>> getFollowers(
-            @PathVariable Long userId,
+            @PathVariable String username,
             @AuthenticationPrincipal Usuario usuario,
             @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
-        Page<UsuarioFollowDTO> followers = followerService.getFollowers(userId, pageable, usuario);
+        Page<UsuarioFollowDTO> followers = followerService.getFollowers(username, pageable, usuario);
         return ResponseEntity.ok(followers);
     }
 
-    @GetMapping("/{id}/followings")
+    @GetMapping("/{username}/followings")
     public ResponseEntity<Page<UsuarioFollowDTO>> getFollowing(
-            @PathVariable Long id,
+            @PathVariable String username,
             @AuthenticationPrincipal Usuario usuario,
             @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
         try {
-            return ResponseEntity.ok(followerService.getFollowing(id, pageable, usuario));
+            return ResponseEntity.ok(followerService.getFollowing(username, pageable, usuario));
         } catch (UsernameNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } catch (Exception e) {
@@ -67,22 +67,22 @@ public class FollowController {
         }
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/{username}")
     public ResponseEntity<String> follow(
             @AuthenticationPrincipal Usuario usuario,
-            @PathVariable Long id
+            @PathVariable String username
     ) {
         try {
-            ResponseEntity<String> response = followerService.follow(usuario, id);
+            ResponseEntity<String> response = followerService.follow(usuario, username);
             String message = "🎉 " + usuario.getNome() + " começou a te seguir!";
-            Usuario destination =  usuarioRepository.findById(id).orElseThrow();
+            Usuario destination =  usuarioRepository.findByUsernameUser(username).orElseThrow();
             notificationService.sendNotification(
                     destination,
                     usuario.getImagePath(),
                     usuario.getNome(),
                     usuario,
                     message,
-                    usuario.getId().toString(),
+                    usuario.getUsernameUser(),
                     NotificationType.follow
             );
 
@@ -97,13 +97,13 @@ public class FollowController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{username}")
     public ResponseEntity<String> unfollow(
             @AuthenticationPrincipal Usuario usuario,
-            @PathVariable Long id
+            @PathVariable String username
     ) {
         try {
-            return followerService.unfollow(usuario, id);
+            return followerService.unfollow(usuario, username);
         } catch (UsernameNotFoundException | EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro: " + e.getMessage());
         } catch (Exception e) {

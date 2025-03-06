@@ -12,6 +12,7 @@ import lombok.Setter;
 public class UsuarioFollowDTO {
     private Long userId;
     private String name;
+    private String username;
     private String image;
     private boolean isUser;
 }

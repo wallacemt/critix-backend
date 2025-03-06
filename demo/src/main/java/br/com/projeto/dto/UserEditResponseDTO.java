@@ -12,6 +12,7 @@ import lombok.Setter;
 public class UserEditResponseDTO {
     private Long id;
     private String name;
+    private String username;
     private String email;
     private String token;
     private String refreshToken;

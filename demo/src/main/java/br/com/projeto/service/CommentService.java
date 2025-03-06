@@ -96,6 +96,7 @@ public class CommentService {
         return new CommentDTO(
                 comment.getId(),
                 comment.getUsuario().getId(),
+                comment.getUsuario().getUsernameUser(),
                 comment.getReview().getId(),
                 comment.getContent(),
                 comment.getDataCriacao(),

@@ -39,11 +39,6 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
-    private NotificationService notificationService;
-
     @GetMapping
     public ResponseEntity<Page<ReviewDTO>> getReviews(
             @AuthenticationPrincipal Usuario usuario,
@@ -68,14 +63,14 @@ public class ReviewController {
         }
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/user/{username}")
     public ResponseEntity<Page<ReviewDTO>> getByIdUser(
             @AuthenticationPrincipal Usuario usuario,
-            @PathVariable Long userId,
+            @PathVariable String username,
             @PageableDefault(size = 10, sort = {"id", "dataCriacao"}, direction = Sort.Direction.DESC) Pageable pageable
 
     ) {
-        return ResponseEntity.ok(reviewService.getReviewsByUserId(userId, usuario, pageable));
+        return ResponseEntity.ok(reviewService.getReviewsByUserId(username, usuario, pageable));
     }
 
     @GetMapping("/media/{mediaType}/{mediaId}")
@@ -148,20 +143,6 @@ public class ReviewController {
         try {
             // Realiza a ação de curtir
             ReviewDTO reviewDTO = reviewService.toggleLike(id, usuario);
-
-            // Envia uma notificação para o autor da review
-            String message = "👍 " + usuario.getNome() + " curtiu sua review";
-            Usuario destination = usuarioRepository.findById(reviewDTO.getUserId()).orElseThrow();
-
-            notificationService.sendNotification(
-                    destination,
-                    usuario.getImagePath(),
-                    usuario.getNome(),
-                    usuario,
-                    message,
-                    id.toString(),
-                    NotificationType.like
-            );
             return ResponseEntity.ok(reviewDTO);
         } catch (UsernameNotFoundException e) {
             System.out.println("Erro: Review não encontrada - ID: " + id);

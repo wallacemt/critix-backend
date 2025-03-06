@@ -4,8 +4,10 @@ package br.com.projeto.controle;
 import br.com.projeto.dto.*;
 import br.com.projeto.models.usuario.Usuario;
 import br.com.projeto.service.UsuarioGerenciamentoService;
+import br.com.projeto.ultils.PasswordsDoNotMatchException;
 import org.apache.http.auth.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,10 +22,10 @@ public class UserController {
     @Autowired
     private UsuarioGerenciamentoService usuarioGerenciamentoService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> getUsuarioById(@PathVariable Long id, @AuthenticationPrincipal Usuario usuario) {
+    @GetMapping("/{username}")
+    public ResponseEntity<UsuarioDTO> getUsuarioById(@PathVariable String username, @AuthenticationPrincipal Usuario usuario) {
         try {
-            UsuarioDTO usuarioDTO = usuarioGerenciamentoService.getUserById(id, usuario);
+            UsuarioDTO usuarioDTO = usuarioGerenciamentoService.getUserById(username, usuario);
             return ResponseEntity.ok(usuarioDTO);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -47,12 +49,19 @@ public class UserController {
     }
 
     @PutMapping("/profile")
-    public ResponseEntity<UserEditResponseDTO> editarPerfil(
+    public ResponseEntity<?> editarPerfil(
             @RequestBody Map<String, Object> updates,
             @AuthenticationPrincipal Usuario usuarioAutenticado) {
-
-        UserEditResponseDTO usuarioAtualizado = usuarioGerenciamentoService.editUserInfo(updates, usuarioAutenticado);
-        return ResponseEntity.ok(usuarioAtualizado);
+        try {
+            UserEditResponseDTO usuarioAtualizado = usuarioGerenciamentoService.editUserInfo(updates, usuarioAutenticado);
+            return ResponseEntity.ok(usuarioAtualizado);
+        } catch (DuplicateKeyException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Erro: " + e.getMessage());
+        } catch (PasswordsDoNotMatchException e) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Erro: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @DeleteMapping()
