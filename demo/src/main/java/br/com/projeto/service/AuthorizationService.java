@@ -11,10 +11,33 @@ import br.com.projeto.models.usuario.*;
 import java.util.Optional;
 
 @Service
-public class AuthorizationService implements UserDetailsService {
+    public class AuthorizationService implements UserDetailsService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+//    @Override
+//    public UserDetails loadUserByUsername(String input) throws UsernameNotFoundException {
+//        //Tenta buscar pelo username
+//        Optional<Usuario> usuarioOptional = usuarioRepository.findByUsernameUser(input);
+//
+//        if(usuarioOptional.isPresent()){
+//            Usuario usuario = usuarioOptional.get();
+//            return usuario;
+//        }
+//
+//        //Se não encontrar pelo username, tenta buscar pelo email
+//        usuarioOptional = usuarioRepository.findByEmail(input);
+//
+//        if (usuarioOptional.isPresent()){
+//            Usuario usuario = usuarioOptional.get();
+//            return usuario;
+//        }
+//
+//        // Se não encontrar pelo username nem pelo email, lança exceção
+//        throw new UsernameNotFoundException("Usuário não encontrado com username ou email: "+input);
+//
+//    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -29,4 +52,5 @@ public class AuthorizationService implements UserDetailsService {
         // Retorna o Usuario, que agora precisa implementar UserDetails
         return usuario;
     }
+
 }

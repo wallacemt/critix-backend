@@ -18,6 +18,7 @@ public class UsuarioDTO {
     private int followers;
     private int followings;
     private boolean isUser;
+    private String username;
 
 
     public UsuarioDTO(Usuario entity, boolean ocultaEmail, boolean isUser) {
@@ -30,5 +31,6 @@ public class UsuarioDTO {
         this.followers = entity.getFollowers();
         this.followings = entity.getFollowings();
         this.isUser = isUser;
+        this.username = entity.getUsernameUser();
     }
 }
