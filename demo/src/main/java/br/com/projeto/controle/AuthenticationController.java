@@ -3,6 +3,7 @@ package br.com.projeto.controle;
 import br.com.projeto.dto.*;
 import br.com.projeto.infra.security.TokenService;
 import br.com.projeto.service.AuthenticationService;
+import br.com.projeto.service.EmailVerificationService;
 import br.com.projeto.service.RefreshTokenService;
 import br.com.projeto.ultils.AccountDisabledException;
 import br.com.projeto.ultils.EmailAlreadyRegisteredException;
@@ -10,12 +11,14 @@ import br.com.projeto.ultils.PasswordsDoNotMatchException;
 import jakarta.validation.Valid;
 import org.apache.http.auth.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +35,9 @@ public class AuthenticationController {
     @Autowired
     private TokenService tokenService;
 
+
+    @Autowired
+    private EmailVerificationService emailVerificationService;
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody @Valid AutheticationDTO data) {
@@ -110,6 +116,30 @@ public class AuthenticationController {
         String newAcessToken = refreshTokenService.createAcessTokenFromRefreshToken(refreshToken);
 
         return ResponseEntity.ok(Map.of("acessToken", newAcessToken));
+    }
+
+    @PostMapping("/verify-email")
+    public ResponseEntity<?> sendVerificationCode(@RequestParam String email) {
+        try {
+            String response = emailVerificationService.sendVerificationCode(email);
+            return ResponseEntity.ok(Collections.singletonMap("message", response));
+        } catch (
+                DuplicateKeyException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Erro: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PostMapping("/confirm-code")
+    public ResponseEntity<?> confirmVerificationCode(@RequestParam String email, @RequestParam String code) {
+        boolean isValid = emailVerificationService.verifyCode(email, code);
+
+        if (isValid) {
+            return ResponseEntity.ok(Collections.singletonMap("message", "Código verificado com sucesso!"));
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.singletonMap("error", "Código inválido ou expirado."));
+        }
     }
 
     @GetMapping("")

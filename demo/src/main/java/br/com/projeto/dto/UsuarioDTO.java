@@ -19,7 +19,6 @@ public class UsuarioDTO {
     private int followers;
     private int followings;
     private boolean isUser;
-    private String username;
 
 
     public UsuarioDTO(Usuario entity, boolean ocultaEmail, boolean isUser) {

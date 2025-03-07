@@ -44,7 +44,7 @@ public class LoginControllerTest {
         responseMap.put("token", "mockedAccessToken");
         responseMap.put("refreshToken", "mockedRefreshToken");
 
-        Mockito.when(authenticationService.login(Mockito.any(AutheticationDTO.class))).thenReturn(responseMap);
+        //Mockito.when(authenticationService.login(Mockito.any(AutheticationDTO.class))).thenReturn(responseMap);
 
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -62,7 +62,7 @@ public class LoginControllerTest {
         Map<String, String> errorResponseMap = new HashMap<>();
         errorResponseMap.put("message", "Usuário ou senha inválidos.");
 
-        Mockito.when(authenticationService.login(Mockito.any(AutheticationDTO.class))).thenReturn(errorResponseMap);
+        //Mockito.when(authenticationService.login(Mockito.any(AutheticationDTO.class))).thenReturn(errorResponseMap);
 
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
