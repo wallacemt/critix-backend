@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -62,6 +63,11 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @GetMapping("/top-tier")
+    public ResponseEntity<List<UserTopDTO>> getTierRank() {
+        return ResponseEntity.ok(usuarioGerenciamentoService.getTopTierUsers());
     }
 
     @DeleteMapping()

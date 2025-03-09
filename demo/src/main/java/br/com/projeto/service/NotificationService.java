@@ -40,6 +40,10 @@ public class NotificationService {
                         destination, remetente, remetenteImage, remetenteName, message, reference, type
                 );
 
+        if(remetente.getId().equals(destination.getId())){
+            return;
+        }
+
         if (notificationOptional.isEmpty()) {
             // Se não existir, cria e salva uma nova notificação
             Notification notification = Notification.builder()

@@ -4,6 +4,7 @@ import br.com.projeto.dto.*;
 import br.com.projeto.infra.security.TokenService;
 import br.com.projeto.models.usuario.*;
 import br.com.projeto.repositorio.FollowerRepository;
+import br.com.projeto.repositorio.ReviewRepository;
 import br.com.projeto.ultils.PasswordsDoNotMatchException;
 import jakarta.transaction.Transactional;
 import org.apache.http.auth.InvalidCredentialsException;
@@ -20,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -38,6 +40,9 @@ public class UsuarioGerenciamentoService {
 
     @Autowired
     private FollowerRepository followerRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     public UsuarioDTO getUser(String subject) {
         Optional<Usuario> usuario = usuarioRepository.findByEmail(subject);
@@ -213,6 +218,18 @@ public class UsuarioGerenciamentoService {
     private boolean validEmail(String email) {
         return email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$") &&
                 usuarioRepository.findByEmail(email).isEmpty(); // Garante que o email seja único
+    }
+
+    public List<UserTopDTO> getTopTierUsers(){
+        return  usuarioRepository.findTopTierUsuarios().stream().map(obj -> {
+            Usuario usuario = (Usuario) obj[0];
+            int reviewCount = ((Number) obj[1]).intValue();
+            int totalLikes = ((Number) obj[2]).intValue();
+            int followerCount = ((Number) obj[3]).intValue();
+
+            return new UserTopDTO(usuario.getId(), usuario.getUsernameUser(), usuario.getImagePath(), reviewCount, totalLikes, followerCount);
+        }).toList();
+
     }
 
     @Transactional
