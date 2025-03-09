@@ -8,6 +8,10 @@ import br.com.projeto.ultils.PasswordsDoNotMatchException;
 import org.apache.http.auth.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -66,8 +70,16 @@ public class UserController {
     }
 
     @GetMapping("/top-tier")
-    public ResponseEntity<List<UserTopDTO>> getTierRank() {
-        return ResponseEntity.ok(usuarioGerenciamentoService.getTopTierUsers());
+    public ResponseEntity<List<UserTopDTO>> getTierRank(@AuthenticationPrincipal Usuario usuario) {
+        return ResponseEntity.ok(usuarioGerenciamentoService.getTopTierUsers(usuario));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<UsuarioSearchDTO>> searchUsers(
+            @RequestParam String usernameUser,
+            @AuthenticationPrincipal Usuario usuario,
+            @PageableDefault(size = 10, sort = "usernameUser", direction = Sort.Direction.ASC) Pageable pageable) {
+        return ResponseEntity.ok(usuarioGerenciamentoService.searchUsers(usernameUser, pageable, usuario));
     }
 
     @DeleteMapping()

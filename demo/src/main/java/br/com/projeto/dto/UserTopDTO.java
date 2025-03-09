@@ -10,10 +10,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserTopDTO {
-    Long id;
-    String username;
-    String image;
-    int reviewCount;
-    int followCount;
-    int totalLikes;
+    private Long id;
+    private String username;
+    private String image;
+    private int reviewCount;
+    private int followCount;
+    private int totalLikes;
+    private boolean isUser;
 }

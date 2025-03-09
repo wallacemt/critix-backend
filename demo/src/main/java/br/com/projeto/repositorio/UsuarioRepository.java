@@ -1,8 +1,11 @@
 package br.com.projeto.repositorio;
 
 import br.com.projeto.models.usuario.Usuario;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,16 +27,20 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     //Retorna o top 3 usuarios
     @Query("""
-        SELECT u, 
-               u.reviews AS totalReviews, 
-               u.followers AS totalFollowers, 
-               COALESCE(SUM(CASE WHEN rl.likeType = 'like' THEN 1 ELSE 0 END), 0) AS totalLikes
-        FROM Usuario u
-        LEFT JOIN Review r ON u.id = r.usuario.id
-        LEFT JOIN ReviewLike rl ON r.id = rl.review.id
-        GROUP BY u.id
-        ORDER BY (u.reviews + u.followers + COALESCE(SUM(CASE WHEN rl.likeType = 'like' THEN 1 ELSE 0 END), 0)) DESC
-        LIMIT 3
-    """)
+                SELECT u, 
+                       u.reviews AS totalReviews, 
+                       u.followers AS totalFollowers, 
+                       COALESCE(SUM(CASE WHEN rl.likeType = 'like' THEN 1 ELSE 0 END), 0) AS totalLikes
+                FROM Usuario u
+                LEFT JOIN Review r ON u.id = r.usuario.id
+                LEFT JOIN ReviewLike rl ON r.id = rl.review.id
+                GROUP BY u.id
+                ORDER BY (u.reviews + u.followers + COALESCE(SUM(CASE WHEN rl.likeType = 'like' THEN 1 ELSE 0 END), 0)) DESC
+                LIMIT 3
+            """)
     List<Object[]> findTopTierUsuarios();
+
+    @Query("SELECT u FROM Usuario u WHERE LOWER(u.usernameUser) LIKE LOWER(CONCAT('%', :usernameUser, '%'))")
+    Page<Usuario> searchByUsername(@Param("usernameUser") String usernameUser, Pageable pageable);
+
 }

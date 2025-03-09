@@ -161,8 +161,8 @@ public class AuthenticationService {
                 data.nome(),
                 data.email(),
                 encryptedSenha,
-                "http://res.cloudinary.com/dg9hqvlas/image/upload/v1736533469/1_-_zBr1CQ3_gxvqyg.png",
-                null,
+                "https://res.cloudinary.com/dg9hqvlas/image/upload/v1736533469/1_-_zBr1CQ3_gxvqyg.png",
+                "https://res.cloudinary.com/dg9hqvlas/image/upload/v1736796380/46_-_KJBHYeM_36_11zon_y3aqmo.jpg",
                 0, // reviews
                 0, // followers
                 0,  // followings

@@ -11,6 +11,8 @@ import org.apache.http.auth.InvalidCredentialsException;
 import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -166,7 +168,7 @@ public class UsuarioGerenciamentoService {
                 case "username":
                     String novoUsername = (String) valor;
                     Optional<Usuario> userFind = usuarioRepository.findByUsernameUser(novoUsername);
-                    if(userFind.isPresent() && !usuario.getUsernameUser().equals(novoUsername)){
+                    if (userFind.isPresent() && !usuario.getUsernameUser().equals(novoUsername)) {
                         throw new DuplicateKeyException("Username já em uso");
                     }
                     if (!novoUsername.equals(usuario.getUsernameUser()) && validName(novoUsername)) {
@@ -220,21 +222,25 @@ public class UsuarioGerenciamentoService {
                 usuarioRepository.findByEmail(email).isEmpty(); // Garante que o email seja único
     }
 
-    public List<UserTopDTO> getTopTierUsers(){
-        return  usuarioRepository.findTopTierUsuarios().stream().map(obj -> {
-            Usuario usuario = (Usuario) obj[0];
+    public List<UserTopDTO> getTopTierUsers(Usuario usuario) {
+        return usuarioRepository.findTopTierUsuarios().stream().map(obj -> {
+            Usuario topUser = (Usuario) obj[0];
             int reviewCount = ((Number) obj[1]).intValue();
             int totalLikes = ((Number) obj[2]).intValue();
             int followerCount = ((Number) obj[3]).intValue();
 
-            return new UserTopDTO(usuario.getId(), usuario.getUsernameUser(), usuario.getImagePath(), reviewCount, totalLikes, followerCount);
+            return new UserTopDTO(topUser.getId(), topUser.getUsernameUser(), topUser.getImagePath(), reviewCount, totalLikes, followerCount, usuario.getId().equals(topUser.getId()));
         }).toList();
+    }
 
+    public Page<UsuarioSearchDTO> searchUsers(String usernameUser, Pageable pageable, Usuario usuario) {
+        return usuarioRepository.searchByUsername(usernameUser, pageable)
+                .map(user -> new UsuarioSearchDTO(user.getId(), user.getUsernameUser(), user.getImagePath(), user.getId().equals(usuario.getId())));
     }
 
     @Transactional
     public void deleteUser(Usuario usuario, String password) throws InvalidCredentialsException {
-        if(!passwordEncoder.matches(password, usuario.getPassword())){
+        if (!passwordEncoder.matches(password, usuario.getPassword())) {
             throw new InvalidCredentialsException("Senha Incorreta!");
         }
         usuarioRepository.delete(usuario);
