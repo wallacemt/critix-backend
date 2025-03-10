@@ -101,11 +101,17 @@ java -jar target/squad-17-backend.jar
 ```
 
 
+
+
 <span id="endpoints"></span>
 
 ## 📌 Endpoints Principais
 
-A API está documentada no **Postman**. Você pode importar a coleção utilizando o arquivo `critix-api.json` incluído no projeto.
+A API está documentada no **Swagger** é **Postman**. Você pode importar a coleção utilizando o arquivo `critix-api.json` incluído no projeto ou acessar.
+
+```bash
+http://localhost:8081/swagger-ui/index.html
+```
 
 ### 🔑 Autenticação
 
