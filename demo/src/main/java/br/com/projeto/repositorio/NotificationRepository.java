@@ -14,6 +14,8 @@ import java.util.Optional;
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
     Page<Notification> findByDestinationOrderByCreatedAtDesc(Usuario destination, Pageable pageable);
 
+    void deleteAllByDestination(Usuario usuario);
+
     // Busca uma notificação com os mesmos dados, exceto o createdAt
     Optional<Notification> findByDestinationAndRemetenteAndRemetenteImageAndRemetenteNameAndMessageAndReferenceAndType(
             Usuario destination,

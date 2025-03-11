@@ -8,6 +8,7 @@ import br.com.projeto.models.review.Review;
 import br.com.projeto.models.usuario.Usuario;
 import br.com.projeto.repositorio.NotificationRepository;
 import br.com.projeto.repositorio.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
@@ -93,6 +94,10 @@ public class NotificationService {
         return;
     }
 
+    @Transactional
+    public void deleteAllNotification(Usuario usuario){
+        notificationRepository.deleteAllByDestination(usuario);
+    }
 
     private NotificationRequestDTO convertToDTO(Notification notification) {
         return new NotificationRequestDTO(

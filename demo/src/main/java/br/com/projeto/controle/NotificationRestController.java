@@ -37,4 +37,11 @@ public class NotificationRestController {
         notificationService.deleteNotification(id);
         return ResponseEntity.ok().build();
     }
+    @DeleteMapping("/all")
+    public ResponseEntity<Void> deleteAllNotification(@AuthenticationPrincipal Usuario usuario){
+        notificationService.deleteAllNotification(usuario);
+        return ResponseEntity.ok().build();
+    }
+
+
 }
