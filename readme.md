@@ -135,7 +135,7 @@ http://localhost:8081/swagger-ui/index.html
 ### 🤳 Follower (Protegida)
 
 - `POST /follow/:id` - Segue um usuário pelo ID
-- `DEL /auth/user` - Deixa de seguir um usuário
+- `DEL /follow/:id` - Deixa de seguir um usuário
 
 ### 🔔 Notifications (Protegida)
 
