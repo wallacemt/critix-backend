@@ -35,7 +35,7 @@ O backend do **Critix** é responsável por fornecer a API REST que alimenta a p
    <img align='center' height='70' width='70' title='Docker' alt='docker' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg' /> &nbsp;
    <img align='center' height='48' width='48' title='Bcrypt' alt='bcrypt' src='https://github.com/bush1D3v/navarro_blog_api/assets/133554156/8d9137f8-cd85-4629-be08-c639db52088d' /> &nbsp;
     <img align='center' height='48' width='48' title='MySql' alt='MySql' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original-wordmark.svg' /> &nbsp;
-    <img align='center' height='48' width='48' style="filter: invert(1);" title='WebSocket' alt='WebSocket' src='https://www.svgrepo.com/show/354553/websocket.svg' /> &nbsp;
+    <img align='center' height='48' width='48' title='WebSocket' alt='WebSocket' src='https://res.cloudinary.com/dg9hqvlas/image/upload/v1742058046/images-removebg-preview_ritj99.png' /> &nbsp;
     <img align='center' height='48' width='48'  title='Postman' alt='Postman' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg' /> &nbsp;
     <img align='center' height='48' width='48'  title='Junit' alt='Junit' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/junit/junit-original-wordmark.svg' /> &nbsp;
     <img align='center' height='48' width='48'  title='Oauth' alt='Oauth' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/oauth/oauth-original.svg' /> &nbsp;
