@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import io.github.cdimascio.dotenv.Dotenv;
 @SpringBootApplication
-public class CodificaApplication {
+public class CritixAplicattion {
 
 
 
@@ -24,7 +24,7 @@ public class CodificaApplication {
 		System.setProperty("cloudinary.api.secret", dotenv.get("CLOUDINARY.API.SECRET"));
 		System.setProperty("google.client.id", dotenv.get("GOOGLE_CLIENT_ID"));
 
-		SpringApplication.run(CodificaApplication.class, args);
+		SpringApplication.run(CritixAplicattion.class, args);
 	}
 
 }

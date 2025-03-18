@@ -47,7 +47,7 @@ O backend do **Critix** é responsável por fornecer a API REST que alimenta a p
 <span id="estrutura-projeto"></span>
 ## 📂 Estrutura do Projeto
 ```
-critix-backend/demo
+critix-backend/
 │-- src/
 │   ├── main/java/br/com/projeto/
 │   │   ├── config/
